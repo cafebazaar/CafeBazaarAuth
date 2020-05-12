@@ -1,1 +1,11 @@
-<manifest package="com.farsitel.bazaar.auth" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.farsitel.bazaar.auth">
+
+    <application>
+        <receiver android:name="com.farsitel.bazaar.auth.receiver.AuthReceiver">
+            <intent-filter>
+                <!-- TODO complete -->
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>
