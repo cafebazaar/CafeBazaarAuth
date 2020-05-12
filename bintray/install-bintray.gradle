@@ -1,0 +1,50 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.farsitel.bazaar'
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                groupId 'com.farsitel.bazaar'
+                artifactId project.artifact_id
+
+                name 'Auth'
+                url 'https://github.com/cafebazaar/CafeBazaarAuth'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'shayanpourvatan'
+                        name 'Shayan Pourvatan'
+                        email 'shayanpourvatan@gmail.com'
+                    }
+                }
+
+                scm {
+                    connection 'https://github.com/cafebazaar/CafeBazaarAuth.git'
+                    developerConnection 'https://github.com/cafebazaar/CafeBazaarAuth.git'
+                    url 'https://github.com/cafebazaar/CafeBazaarAuth'
+                }
+            }
+            withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.api.allDependencies.each {
+                    if (it.group != null && (it.name != null || "unspecified" == it.name) && it.version != null) {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
