@@ -1,0 +1,17 @@
+ext {
+
+    libraryVersions = [
+            'kotlin'   : '1.3.71',
+            'appcompat': '1.1.0',
+            'fragment' : '1.1.0'
+    ]
+
+    pluginVersions = [
+            'gradle'      : '3.6.1',
+            'bintray'     : '1.2',
+            'androidmaven': '1.4.1',
+    ]
+
+    authVersion = "1.0.0-alpha01"
+
+}
