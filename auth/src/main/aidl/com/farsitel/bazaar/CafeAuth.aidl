@@ -5,4 +5,5 @@ package com.farsitel.bazaar;
 
 interface CafeAuth {
     Bundle getAccountInfoByScopePermission(String packageName, in int[] scopes);
+    Bundle getLastAccountInfo(String packageName, in int[] scopes);
 }
