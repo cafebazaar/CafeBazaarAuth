@@ -8,7 +8,7 @@ import com.farsitel.bazaar.auth.callback.CafeSingInCallback
 import com.farsitel.bazaar.auth.model.CafeSignInAccount
 import com.farsitel.bazaar.auth.model.CafeSignInOptions
 
-abstract class AuthConnection(private val context: Context) {
+internal abstract class AuthConnection(private val context: Context) {
     abstract fun getLastAccountId(owner: LifecycleOwner, callback: CafeSingInCallback)
     abstract fun getLastAccountIdSync(owner: LifecycleOwner): CafeSignInAccount?
 
