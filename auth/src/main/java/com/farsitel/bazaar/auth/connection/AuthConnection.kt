@@ -12,24 +12,8 @@ internal abstract class AuthConnection(private val context: Context) {
     abstract fun getLastAccountId(owner: LifecycleOwner, callback: CafeSingInCallback)
     abstract fun getLastAccountIdSync(owner: LifecycleOwner): CafeSignInAccount?
 
-    private val ailAction = "ir.cafebazaar.intent.action.IAL"
-    private val ialActionUri = "bazaar://inapplogin"
-
-    fun getSignInIntentWithScope(signInOption: CafeSignInOptions) =
-        Intent(ailAction, Uri.parse(ialActionUri))
-            .apply {
-                setPackage("com.farsitel.bazaar")
-                putExtra(PACKAGE_NAME_KEY, context.packageName)
-                putExtra(
-                    PERMISSION_SCOPE_KEY,
-                    signInOption.getScopes().map { it.ordinal }.toIntArray()
-                )
-            }
-
     companion object {
         const val PACKAGE_NAME_KEY = "packageName"
-        private const val PERMISSION_SCOPE_KEY = "permissionScope"
-
 
         private lateinit var authConnection: AuthConnection
         private val lockObject = Object()
