@@ -9,7 +9,7 @@ object InAppLoginLogger {
         if (mDebugLog) Log.d(mDebugTag, msg)
     }
 
-    fun logError(msg: String) {
+    fun logError(msg: String?) {
         Log.e(mDebugTag, "In-app login error: $msg")
     }
 

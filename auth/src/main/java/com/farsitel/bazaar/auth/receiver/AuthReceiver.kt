@@ -14,15 +14,6 @@ class AuthReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val sendIntent = Intent().apply {
-            action = intent!!.action
-
-            val bundle = intent.extras
-            if (bundle != null) {
-                putExtras(bundle)
-            }
-        }
-
-        _authReceiveObserver.value = sendIntent
+        _authReceiveObserver.value = intent
     }
 }

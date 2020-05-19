@@ -9,8 +9,9 @@ import com.farsitel.bazaar.auth.callback.CafeSingInCallback
 import com.farsitel.bazaar.auth.model.CafeSignInAccount
 import com.farsitel.bazaar.auth.receiver.AuthReceiver
 import com.farsitel.bazaar.auth.util.AbortableCountDownLatch
+import com.farsitel.bazaar.auth.util.InAppLoginLogger
 
-class ReceiverAuthConnection(
+internal class ReceiverAuthConnection(
     private val context: Context
 ) : AuthConnection(context) {
 
@@ -23,7 +24,6 @@ class ReceiverAuthConnection(
         owner: LifecycleOwner,
         callback: CafeSingInCallback
     ) {
-
         cafeSingInCallback = callback
         sendBroadcastForLastAccountId(owner)
     }
@@ -34,21 +34,6 @@ class ReceiverAuthConnection(
             AbortableCountDownLatch(1)
         getAccountIdLatch!!.await()
         return cafeSignInAccount
-    }
-
-    private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner) {
-        AuthReceiver.authReceiveObserver.observe(owner, Observer { intent ->
-            when (intent.action) {
-                GET_LAST_ACCOUNT_ACTION_RESPONSE -> handleGetLastAccountResponse(intent.extras)
-            }
-        })
-    }
-
-    private fun handleGetLastAccountResponse(extras: Bundle?) {
-        if (extras == null) {
-            throw IllegalStateException("invalid bundle received")
-        }
-
     }
 
     private fun sendBroadcastForLastAccountId(owner: LifecycleOwner) {
@@ -64,8 +49,39 @@ class ReceiverAuthConnection(
         putExtra(PACKAGE_NAME_KEY, context.packageName)
     }
 
+    private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner) {
+        AuthReceiver.authReceiveObserver.observe(owner, Observer { intent ->
+            when (intent.action) {
+                GET_LAST_ACCOUNT_ACTION_RESPONSE ->
+                    handleGetLastAccountResponse(
+                        intent.extras
+                    )
+            }
+        })
+    }
+
+    private fun handleGetLastAccountResponse(extras: Bundle?) {
+        if (extras == null) {
+            return
+        }
+
+        val account = if (AuthResponseHandler.isSuccessful(extras)) {
+            AuthResponseHandler.getAccountByBundle(extras)
+        } else {
+            InAppLoginLogger.logError(AuthResponseHandler.getErrorMessage(extras))
+            null
+        }
+
+        cafeSingInCallback?.onAccountReceived(account)
+        getAccountIdLatch?.let {
+            cafeSignInAccount = account
+            it.countDown()
+        }
+    }
+
     companion object {
         private const val GET_LAST_ACCOUNT_ACTION = "com.farsitel.bazaar.lastAccount"
+
         private const val GET_LAST_ACCOUNT_ACTION_RESPONSE = "com.farsitel.bazaar.lastAccountRes"
     }
 

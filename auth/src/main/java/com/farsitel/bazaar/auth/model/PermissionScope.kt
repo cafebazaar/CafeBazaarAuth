@@ -1,15 +1,25 @@
 package com.farsitel.bazaar.auth.model
 
-class CafeSignInOptions {
+class CafeSignInOptions private constructor(
+    internal val signInOption: SignInOption,
+    private val requestNickName: Boolean
+) {
 
-    internal var signInOption: SignInOption? = null
-        private set
+    fun getScopes(): List<PermissionScope> {
+        val result = mutableListOf(PermissionScope.ACCOUNT_ID)
+        if (requestNickName) {
+            result.add(PermissionScope.PROFILE)
+        }
 
-    fun getScopes(): List<PermissionScope> = listOf(PermissionScope.PROFILE)
+        return result
+    }
 
     class Builder(private val option: SignInOption) {
-        fun build() = CafeSignInOptions().apply {
-            this.signInOption = option
+        private var requestNickName: Boolean = false
+        fun build() = CafeSignInOptions(option, requestNickName)
+
+        fun requestForNickname() {
+            requestNickName = true
         }
     }
 }
@@ -20,6 +30,7 @@ enum class SignInOption {
 
 
 enum class PermissionScope {
+    ACCOUNT_ID,
     PROFILE,
     EMAIL,
     PHONE
