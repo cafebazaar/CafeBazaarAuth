@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.auth.model;
+package com.farsitel.bazaar.auth.util;
 
 import org.jetbrains.annotations.NotNull;
 

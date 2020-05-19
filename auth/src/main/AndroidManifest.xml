@@ -4,7 +4,7 @@
     <application>
         <receiver android:name="com.farsitel.bazaar.auth.receiver.AuthReceiver">
             <intent-filter>
-                <!-- TODO complete -->
+                <action android:name="com.farsitel.bazaar.lastAccountRes" />
             </intent-filter>
         </receiver>
     </application>

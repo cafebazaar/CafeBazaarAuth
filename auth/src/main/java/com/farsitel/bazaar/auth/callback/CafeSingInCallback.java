@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.auth;
+package com.farsitel.bazaar.auth.callback;
 
 import androidx.annotation.Nullable;
 
