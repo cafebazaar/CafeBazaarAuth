@@ -12,6 +12,8 @@ import com.farsitel.bazaar.auth.model.CafeSignInOptions
 class CafeSignIn {
 
     companion object {
+
+        @JvmStatic
         fun getLastSignedInAccount(
             context: Context,
             owner: LifecycleOwner,
@@ -20,6 +22,7 @@ class CafeSignIn {
             getAuthConnection(context).getLastAccountId(owner, callback)
         }
 
+        @JvmStatic
         fun getLastSignedInAccountSync(
             context: Context,
             owner: LifecycleOwner

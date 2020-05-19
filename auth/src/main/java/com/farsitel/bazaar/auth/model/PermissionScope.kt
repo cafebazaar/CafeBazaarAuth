@@ -2,7 +2,7 @@ package com.farsitel.bazaar.auth.model
 
 class CafeSignInOptions {
 
-    var signInOption: SignInOption? = null
+    internal var signInOption: SignInOption? = null
         private set
 
     fun getScopes(): List<PermissionScope> = listOf(PermissionScope.PROFILE)
