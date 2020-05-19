@@ -65,9 +65,6 @@ class ReceiverAuthConnection(
     }
 
     companion object {
-
-        private const val PACKAGE_NAME_KEY = "packageName"
-
         private const val GET_LAST_ACCOUNT_ACTION = "com.farsitel.bazaar.lastAccount"
         private const val GET_LAST_ACCOUNT_ACTION_RESPONSE = "com.farsitel.bazaar.lastAccountRes"
     }

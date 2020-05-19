@@ -4,8 +4,9 @@ import android.content.Context
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.auth.callback.CafeSingInCallback
-import com.farsitel.bazaar.auth.connection.getAuthConnection
+import com.farsitel.bazaar.auth.connection.AuthConnection.Companion.getAuthConnection
 import com.farsitel.bazaar.auth.model.CafeSignInAccount
+import com.farsitel.bazaar.auth.model.CafeSignInOptions
 
 object CafeSignIn {
 
@@ -23,4 +24,7 @@ object CafeSignIn {
         }
         return getAuthConnection(context).getLastAccountIdSync(owner)
     }
+
+    fun getSignInIntentWithScope(context: Context, signInOption: CafeSignInOptions) =
+        getAuthConnection(context).getSignInIntentWithScope(signInOption)
 }
