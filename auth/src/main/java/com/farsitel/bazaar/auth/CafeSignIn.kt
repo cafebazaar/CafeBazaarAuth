@@ -2,6 +2,7 @@ package com.farsitel.bazaar.auth
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.auth.callback.CafeSingInCallback
@@ -39,5 +40,9 @@ class CafeSignIn {
                 this.signInOption = signInOption
                 this.activity = activity
             }
+
+        @JvmStatic
+        fun getSignedInAccountFromIntent(data: Intent?) =
+            CafeSignInResult.getAccountFromIntent(data)
     }
 }
