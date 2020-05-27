@@ -13,7 +13,7 @@ object AuthResponseHandler {
     private const val IAL_STATUE_SUCCESS: Int = 0
     private const val IAL_STATUE_FAILED: Int = -1
     private const val IAL_STATUE_DEVELOPER_ERROR: Int = -2
-    private const val IAL_STATUE_PERMISSION_NOT_EXISTS: Int = -3
+    private const val IAL_STATUE_ACCOUNT_NOT_EXISTS: Int = -3
 
     fun isSuccessful(extras: Bundle): Boolean =
         extras.getInt(IAL_STATUE_KEY) == IAL_STATUE_SUCCESS
@@ -22,7 +22,7 @@ object AuthResponseHandler {
         when (extras.getInt(IAL_STATUE_KEY)) {
             IAL_STATUE_FAILED,
             IAL_STATUE_DEVELOPER_ERROR -> extras.getString(IAL_ERROR_MESSAGE_KEY)
-            IAL_STATUE_PERMISSION_NOT_EXISTS -> "Invalid permission requested"
+            IAL_STATUE_ACCOUNT_NOT_EXISTS -> "Account not exists for packageName"
             else -> null
         }
 
