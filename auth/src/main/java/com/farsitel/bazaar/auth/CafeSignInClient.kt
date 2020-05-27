@@ -6,15 +6,12 @@ import android.net.Uri
 import com.farsitel.bazaar.auth.connection.AuthConnection
 import com.farsitel.bazaar.auth.model.CafeSignInOptions
 
-class CafeSignInClient {
-
-    lateinit var signInOption: CafeSignInOptions
-        internal set
-
-    internal lateinit var activity: Activity
+class CafeSignInClient internal constructor(
+    private val signInOption: CafeSignInOptions,
+    private val activity: Activity
+) {
 
     fun getSignInIntentWithScope(): Intent {
-        checkInitializing()
         return getSignInIntentWithScope(signInOption)
     }
 
@@ -28,15 +25,6 @@ class CafeSignInClient {
                     signInOption.getScopes().map { it.ordinal }.toIntArray()
                 )
             }
-
-
-    private fun checkInitializing() {
-        if (!::signInOption.isInitialized || !::activity.isInitialized) {
-            throw IllegalStateException(
-                "You need to create CafeSignInClient with CafeSignIn#getClinet"
-            )
-        }
-    }
 
     companion object {
         private const val IAL_ACTION = "ir.cafebazaar.intent.action.IAL"

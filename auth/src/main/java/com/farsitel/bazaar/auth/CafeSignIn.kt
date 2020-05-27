@@ -36,10 +36,7 @@ class CafeSignIn {
 
         @JvmStatic
         fun getClient(activity: Activity, signInOption: CafeSignInOptions) =
-            CafeSignInClient().apply {
-                this.signInOption = signInOption
-                this.activity = activity
-            }
+            CafeSignInClient(signInOption, activity)
 
         @JvmStatic
         fun getSignedInAccountFromIntent(data: Intent?) =
