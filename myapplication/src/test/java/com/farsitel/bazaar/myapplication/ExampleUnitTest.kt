@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.auth
+package com.farsitel.bazaar.myapplication
 
 import org.junit.Test
 
