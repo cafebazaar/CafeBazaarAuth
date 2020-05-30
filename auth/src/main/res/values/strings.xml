@@ -2,4 +2,6 @@
 <resources>
     <string name="install">نصب بازار</string>
     <string name="update">بروزرسانی</string>
+    <string name="login_normal">ورود</string>
+    <string name="login_big">ورود با بازار</string>
 </resources>

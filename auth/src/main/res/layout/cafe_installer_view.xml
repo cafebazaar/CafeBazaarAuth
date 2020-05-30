@@ -25,7 +25,8 @@
         android:paddingRight="@dimen/default_margin_double"
         android:text="برای استفاده‌ی بهینه لطفا آپدیت کنید تا حالش رو ببرید"
         android:textColor="#8F000000"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:fontFamily="@font/regular" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/install"
@@ -41,6 +42,7 @@
         android:text="@string/install"
         android:textColor="#FFF"
         android:textSize="18sp"
+        app:fontFamily="@font/regular"
         app:layout_constraintBottom_toBottomOf="@id/permissionConfirmBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/permissionConfirmBtn"
