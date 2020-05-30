@@ -43,10 +43,6 @@
         android:text="@string/update"
         android:textColor="#FFF"
         android:textSize="18sp"
-        app:fontFamily="@font/regular"
-        app:layout_constraintBottom_toBottomOf="@id/permissionConfirmBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/permissionConfirmBtn"
-        app:layout_constraintTop_toTopOf="@id/permissionConfirmBtn" />
+        app:fontFamily="@font/regular" />
 
 </LinearLayout>
