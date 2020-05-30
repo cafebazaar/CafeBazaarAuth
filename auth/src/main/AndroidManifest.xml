@@ -7,5 +7,6 @@
                 <action android:name="com.farsitel.bazaar.lastAccountRes" />
             </intent-filter>
         </receiver>
+        <activity android:name=".view.CafeInstallerActivity" />
     </application>
 </manifest>

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import com.farsitel.bazaar.auth.connection.AuthConnection
 import com.farsitel.bazaar.auth.model.CafeSignInOptions
+import com.farsitel.bazaar.auth.util.getPackageInfo
+import com.farsitel.bazaar.auth.util.versionCodeSDKAware
 
 class CafeSignInClient internal constructor(
     private val signInOption: CafeSignInOptions,
