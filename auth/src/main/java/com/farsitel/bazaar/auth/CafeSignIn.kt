@@ -29,7 +29,7 @@ class CafeSignIn {
             owner: LifecycleOwner
         ): CafeSignInAccount? {
             if (Looper.myLooper() == Looper.getMainLooper()) {
-                throw IllegalStateException("Can't call this method in UI thread.")
+                throw IllegalStateException("Can't call this method on UI thread.")
             }
             return getAuthConnection(context).getLastAccountIdSync(owner)
         }

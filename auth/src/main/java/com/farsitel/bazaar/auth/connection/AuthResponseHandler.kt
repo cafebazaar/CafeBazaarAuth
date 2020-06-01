@@ -29,8 +29,10 @@ object AuthResponseHandler {
     fun getAccountByBundle(extras: Bundle): CafeSignInAccount? {
 
         val accountId = extras.getString(IAL_ACCOUNT_INFO_AID_KEY) ?: return null
-        val nickname = extras.getString(IAL_ACCOUNT_INFO_NICKNAME_KEY)
 
-        return CafeSignInAccount(accountId, nickname)
+        // in first version we don't this
+        // val nickname = extras.getString(IAL_ACCOUNT_INFO_NICKNAME_KEY)
+
+        return CafeSignInAccount(accountId)
     }
 }

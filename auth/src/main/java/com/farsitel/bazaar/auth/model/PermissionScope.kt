@@ -18,7 +18,8 @@ class CafeSignInOptions private constructor(
         private var requestNickName: Boolean = false
         fun build() = CafeSignInOptions(option, requestNickName)
 
-        fun requestForNickname() {
+        // You can't set this for now
+        private fun requestForNickname() {
             requestNickName = true
         }
     }

@@ -18,8 +18,9 @@ object CafeSignInResult {
         val responseJson = intent.extras?.getString(RESPONSE_KEY) ?: return null
         val accountJson = JSONObject(responseJson)
         val accountId = accountJson.getString(ACCOUNT_ID_JSON_KEY)
-        val nickname = accountJson.getString(NICKNAME_JSON_KEY)
+        // in first version we don't this
+        // val nickname = accountJson.getString(NICKNAME_JSON_KEY)
 
-        return CafeSignInAccount(accountId, nickname)
+        return CafeSignInAccount(accountId)
     }
 }
