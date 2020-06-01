@@ -19,12 +19,12 @@
         app:srcCompat="@drawable/bazaar_logo_with_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/updateDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin_quintuple"
         android:paddingLeft="@dimen/default_margin_double"
         android:paddingRight="@dimen/default_margin_double"
-        android:text="برای استفاده‌ی بهینه لطفا آپدیت کنید تا حالش رو ببرید"
         android:textColor="#8F000000"
         android:textSize="16sp"
         app:fontFamily="@font/regular" />
