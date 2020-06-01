@@ -1,9 +1,10 @@
 package com.farsitel.bazaar.myapplication
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.farsitel.bazaar.auth.CafeSignIn
 import com.farsitel.bazaar.auth.CafeSignInClient
 import com.farsitel.bazaar.auth.callback.CafeSingInCallback
@@ -14,7 +15,7 @@ import com.farsitel.bazaar.auth.model.SignInOption
 class MainActivity : AppCompatActivity() {
 
 
-    private lateinit var loginButton: Button
+    private lateinit var loginButton: View
     private lateinit var client: CafeSignInClient
     private val REQ_CODE = 123
 
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         checkUserAlreadySingIn()
 
-        loginButton = findViewById(R.id.login)
+        loginButton = findViewById(R.id.loginButton)
     }
 
     private fun checkUserAlreadySingIn() {
@@ -53,15 +54,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI(account: CafeSignInAccount?) {
-        loginButton.text = if (account == null) {
+        if (account == null) {
             loginButton.setOnClickListener {
                 val intent = client.getSignInIntentWithScope()
                 startActivityForResult(intent, REQ_CODE)
             }
-            "login"
         } else {
             loginButton.setOnClickListener(null)
-            "welcome"
+            Toast.makeText(this, "you are login", Toast.LENGTH_LONG).show()
         }
 
     }

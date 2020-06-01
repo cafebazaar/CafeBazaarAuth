@@ -41,10 +41,7 @@ class LoginButton @JvmOverloads constructor(
     }
 
     private fun addViewByLayoutId(layoutId: Int) {
-        val view = LayoutInflater.from(context)
-            .inflate(layoutId, this, true)
-
-        addView(view)
+        LayoutInflater.from(context).inflate(layoutId, this, true)
     }
 
     enum class LoadingButtonSize {
