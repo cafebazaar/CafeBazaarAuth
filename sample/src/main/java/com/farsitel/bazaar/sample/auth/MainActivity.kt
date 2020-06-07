@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.sample
+package com.farsitel.bazaar.sample.auth
 
 import android.content.Intent
 import android.os.Bundle
