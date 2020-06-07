@@ -1,2 +1,2 @@
 rootProject.name='CafeAuth'
-include ':auth', ':myapplication'
+include ':auth', ':sample'
