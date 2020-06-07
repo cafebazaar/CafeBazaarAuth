@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.myapplication
+package com.farsitel.bazaar.sample
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

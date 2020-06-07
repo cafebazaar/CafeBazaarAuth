@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.myapplication
+package com.farsitel.bazaar.sample
 
 import org.junit.Test
 

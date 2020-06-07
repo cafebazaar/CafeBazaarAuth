@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.myapplication
+package com.farsitel.bazaar.sample
 
 import android.content.Intent
 import android.os.Bundle
