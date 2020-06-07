@@ -23,12 +23,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        checkUserAlreadySingedIn()
+        checkUserAlreadySignedIn()
 
         loginButton = findViewById(R.id.loginButton)
     }
 
-    private fun checkUserAlreadySingedIn() {
+    private fun checkUserAlreadySignedIn() {
         val signInOption = BazaarSignInOptions.Builder(SignInOption.DEFAULT_SIGN_IN).build()
         client = BazaarSignIn.getClient(
             this,
