@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.farsitel.bazaar.auth.callback.CafeSingInCallback
-import com.farsitel.bazaar.auth.model.CafeSignInAccount
+import com.farsitel.bazaar.auth.callback.BazaarSingInCallback
+import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.receiver.AuthReceiver
 import com.farsitel.bazaar.auth.util.AbortableCountDownLatch
 import com.farsitel.bazaar.auth.util.InAppLoginLogger
@@ -15,25 +15,25 @@ internal class ReceiverAuthConnection(
     private val context: Context
 ) : AuthConnection(context) {
 
-    private var cafeSingInCallback: CafeSingInCallback? = null
+    private var bazaarSingInCallback: BazaarSingInCallback? = null
 
     private var getAccountIdLatch: AbortableCountDownLatch? = null
-    private var cafeSignInAccount: CafeSignInAccount? = null
+    private var bazaarSignInAccount: BazaarSignInAccount? = null
 
     override fun getLastAccountId(
         owner: LifecycleOwner,
-        callback: CafeSingInCallback
+        callback: BazaarSingInCallback
     ) {
-        cafeSingInCallback = callback
+        bazaarSingInCallback = callback
         sendBroadcastForLastAccountId(owner)
     }
 
-    override fun getLastAccountIdSync(owner: LifecycleOwner): CafeSignInAccount? {
+    override fun getLastAccountIdSync(owner: LifecycleOwner): BazaarSignInAccount? {
         sendBroadcastForLastAccountId(owner)
         getAccountIdLatch =
             AbortableCountDownLatch(1)
         getAccountIdLatch!!.await()
-        return cafeSignInAccount
+        return bazaarSignInAccount
     }
 
     private fun sendBroadcastForLastAccountId(owner: LifecycleOwner) {
@@ -72,9 +72,9 @@ internal class ReceiverAuthConnection(
             null
         }
 
-        cafeSingInCallback?.onAccountReceived(account)
+        bazaarSingInCallback?.onAccountReceived(account)
         getAccountIdLatch?.let {
-            cafeSignInAccount = account
+            bazaarSignInAccount = account
             it.countDown()
         }
     }

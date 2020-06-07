@@ -5,12 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
-import com.farsitel.bazaar.auth.callback.CafeSingInCallback
+import com.farsitel.bazaar.auth.callback.BazaarSingInCallback
 import com.farsitel.bazaar.auth.connection.AuthConnection.Companion.getAuthConnection
-import com.farsitel.bazaar.auth.model.CafeSignInAccount
-import com.farsitel.bazaar.auth.model.CafeSignInOptions
+import com.farsitel.bazaar.auth.model.BazaarSignInAccount
+import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 
-class CafeSignIn {
+class BazaarSignIn {
 
     companion object {
 
@@ -18,7 +18,7 @@ class CafeSignIn {
         fun getLastSignedInAccount(
             context: Context,
             owner: LifecycleOwner,
-            callback: CafeSingInCallback
+            callback: BazaarSingInCallback
         ) {
             getAuthConnection(context).getLastAccountId(owner, callback)
         }
@@ -27,7 +27,7 @@ class CafeSignIn {
         fun getLastSignedInAccountSync(
             context: Context,
             owner: LifecycleOwner
-        ): CafeSignInAccount? {
+        ): BazaarSignInAccount? {
             if (Looper.myLooper() == Looper.getMainLooper()) {
                 throw IllegalStateException("Can't call this method on UI thread.")
             }
@@ -35,11 +35,11 @@ class CafeSignIn {
         }
 
         @JvmStatic
-        fun getClient(activity: Activity, signInOption: CafeSignInOptions) =
-            CafeSignInClient(signInOption, activity)
+        fun getClient(activity: Activity, signInOption: BazaarSignInOptions) =
+            BazaarSignInClient(signInOption, activity)
 
         @JvmStatic
         fun getSignedInAccountFromIntent(data: Intent?) =
-            CafeSignInResult.getAccountFromIntent(data)
+            BazaarSignInResult.getAccountFromIntent(data)
     }
 }

@@ -1,6 +1,6 @@
 package com.farsitel.bazaar.auth.model
 
-class CafeSignInOptions private constructor(
+class BazaarSignInOptions private constructor(
     internal val signInOption: SignInOption,
     private val requestNickName: Boolean
 ) {
@@ -16,7 +16,7 @@ class CafeSignInOptions private constructor(
 
     class Builder(private val option: SignInOption) {
         private var requestNickName: Boolean = false
-        fun build() = CafeSignInOptions(option, requestNickName)
+        fun build() = BazaarSignInOptions(option, requestNickName)
 
         // You can't set this for now
         private fun requestForNickname() {

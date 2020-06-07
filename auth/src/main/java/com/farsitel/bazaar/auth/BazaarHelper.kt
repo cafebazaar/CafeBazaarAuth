@@ -4,9 +4,9 @@ import android.content.Context
 import com.farsitel.bazaar.auth.security.Security
 import com.farsitel.bazaar.auth.util.getPackageInfo
 import com.farsitel.bazaar.auth.util.versionCodeSDKAware
-import com.farsitel.bazaar.auth.view.CafeInstallerActivity
+import com.farsitel.bazaar.auth.view.BazaarInstallerActivity
 
-object CafeHelper {
+object BazaarHelper {
 
     private const val BAZAAR_PACKAGE_NAME = "com.farsitel.bazaar"
     private const val BAZAAR_WITH_AUTH_VERSION = 801300
@@ -15,15 +15,15 @@ object CafeHelper {
         getPackageInfo(context, BAZAAR_PACKAGE_NAME) != null &&
                 Security.verifyBazaarIsInstalled(context)
 
-    fun isBazaarNeedToUpdate(context: Context): Boolean =
+    fun isNeededToUpdateBazaar(context: Context): Boolean =
         getBazaarVersion(context) >= BAZAAR_WITH_AUTH_VERSION
 
     fun showInstallBazaarView(context: Context) {
-        CafeInstallerActivity.startCafeInstallerActivityForInstallBazaar(context)
+        BazaarInstallerActivity.startCafeInstallerActivityForInstallBazaar(context)
     }
 
     fun showUpdateBazaarView(context: Context) {
-        CafeInstallerActivity.startCafeInstallerActivityForUpdateBazaar(context)
+        BazaarInstallerActivity.startCafeInstallerActivityForUpdateBazaar(context)
     }
 
     private fun getBazaarVersion(context: Context) = getPackageInfo(

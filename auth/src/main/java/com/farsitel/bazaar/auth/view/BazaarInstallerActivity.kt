@@ -10,7 +10,7 @@ import com.farsitel.bazaar.auth.util.getAppName
 import kotlinx.android.synthetic.main.cafe_installer_view.*
 import kotlinx.android.synthetic.main.cafe_update_view.*
 
-class CafeInstallerActivity : AppCompatActivity() {
+class BazaarInstallerActivity : AppCompatActivity() {
 
     private lateinit var installerType: InstallerType
     private lateinit var appName: String
@@ -93,7 +93,7 @@ class CafeInstallerActivity : AppCompatActivity() {
             context: Context,
             installerType: InstallerType
         ) {
-            Intent(context, CafeInstallerActivity::class.java).apply {
+            Intent(context, BazaarInstallerActivity::class.java).apply {
                 putExtra(INSTALLER_TYPE, installerType.ordinal)
                 putExtra(APPLICATION_NAME, getAppName(context))
             }.also {

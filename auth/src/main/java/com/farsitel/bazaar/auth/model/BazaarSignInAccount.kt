@@ -1,5 +1,5 @@
 package com.farsitel.bazaar.auth.model
 
-data class CafeSignInAccount(
+data class BazaarSignInAccount(
     val accountId: String
 )

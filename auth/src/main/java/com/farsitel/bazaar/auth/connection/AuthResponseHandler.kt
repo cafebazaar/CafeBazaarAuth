@@ -1,7 +1,7 @@
 package com.farsitel.bazaar.auth.connection
 
 import android.os.Bundle
-import com.farsitel.bazaar.auth.model.CafeSignInAccount
+import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 
 object AuthResponseHandler {
 
@@ -26,13 +26,13 @@ object AuthResponseHandler {
             else -> null
         }
 
-    fun getAccountByBundle(extras: Bundle): CafeSignInAccount? {
+    fun getAccountByBundle(extras: Bundle): BazaarSignInAccount? {
 
         val accountId = extras.getString(IAL_ACCOUNT_INFO_AID_KEY) ?: return null
 
         // in first version we don't this
         // val nickname = extras.getString(IAL_ACCOUNT_INFO_NICKNAME_KEY)
 
-        return CafeSignInAccount(accountId)
+        return BazaarSignInAccount(accountId)
     }
 }

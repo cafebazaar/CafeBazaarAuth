@@ -16,7 +16,7 @@
         android:layout_marginLeft="@dimen/default_margin"
         android:layout_marginRight="@dimen/default_margin"
         android:text="@string/login_big"
-        android:textColor="#FFF"
+        android:textColor="@color/white"
         app:fontFamily="@font/regular" />
 
     <androidx.appcompat.widget.AppCompatImageView

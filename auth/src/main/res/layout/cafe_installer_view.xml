@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/default_margin_quintuple"
         android:paddingLeft="@dimen/default_margin_double"
         android:paddingRight="@dimen/default_margin_double"
-        android:textColor="#8F000000"
+        android:textColor="@color/dark_text_color"
         android:textSize="16sp"
         app:fontFamily="@font/regular" />
 
@@ -40,7 +40,7 @@
         android:gravity="center"
         android:minWidth="300dp"
         android:text="@string/install"
-        android:textColor="#FFF"
+        android:textColor="@color/white"
         android:textSize="18sp"
         app:fontFamily="@font/regular" />
 

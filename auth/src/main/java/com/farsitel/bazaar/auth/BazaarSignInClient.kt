@@ -4,12 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import com.farsitel.bazaar.auth.connection.AuthConnection
-import com.farsitel.bazaar.auth.model.CafeSignInOptions
-import com.farsitel.bazaar.auth.util.getPackageInfo
-import com.farsitel.bazaar.auth.util.versionCodeSDKAware
+import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 
-class CafeSignInClient internal constructor(
-    private val signInOption: CafeSignInOptions,
+class BazaarSignInClient internal constructor(
+    private val signInOption: BazaarSignInOptions,
     private val activity: Activity
 ) {
 
@@ -17,7 +15,7 @@ class CafeSignInClient internal constructor(
         return getSignInIntentWithScope(signInOption)
     }
 
-    private fun getSignInIntentWithScope(signInOption: CafeSignInOptions) =
+    private fun getSignInIntentWithScope(signInOption: BazaarSignInOptions) =
         Intent(IAL_ACTION, Uri.parse(IAL_ACTION_URI))
             .apply {
                 setPackage("com.farsitel.bazaar")
