@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
-import com.farsitel.bazaar.auth.callback.BazaarSingInCallback
+import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.connection.AuthConnection.Companion.getAuthConnection
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.model.BazaarSignInOptions
@@ -18,7 +18,7 @@ class BazaarSignIn {
         fun getLastSignedInAccount(
             context: Context,
             owner: LifecycleOwner,
-            callback: BazaarSingInCallback
+            callback: BazaarSignInCallback
         ) {
             getAuthConnection(context).getLastAccountId(owner, callback)
         }

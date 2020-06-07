@@ -9,11 +9,11 @@ import com.farsitel.bazaar.auth.util.SingleLiveEvent
 class AuthReceiver : BroadcastReceiver() {
 
     companion object {
-        private val _authReceiveObserver = SingleLiveEvent<Intent>()
-        val authReceiveObserver: LiveData<Intent> = _authReceiveObserver
+        private val _authReceiveObservable = SingleLiveEvent<Intent>()
+        val authReceiveObservable: LiveData<Intent> = _authReceiveObservable
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        _authReceiveObserver.value = intent
+        _authReceiveObservable.value = intent
     }
 }

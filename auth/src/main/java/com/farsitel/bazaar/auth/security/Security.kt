@@ -13,7 +13,6 @@ import java.util.*
 
 object Security {
 
-
     private const val bazaarCertificateHex: String =
         "30:82:01:20:30:0D:06:09:2A:86:48:86:F7:0D:01:01:01:05:00:03:82:01:0D:00:30:82:01:08:02" +
                 ":82:01:01:00:DE:99:07:76:6B:F9:93:30:EE:58:01:57:4A:68:5A:EB:97:42:8C:BF:FB:3F" +
@@ -29,16 +28,16 @@ object Security {
                 ":02:01:03"
 
     fun verifyBazaarIsInstalled(context: Context): Boolean {
-        val pm: PackageManager = context.packageManager
+        val packageManager: PackageManager = context.packageManager
         val packageName = "com.farsitel.bazaar"
 
         val signatures: Array<Signature> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val packageInfo =
-                pm.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
             packageInfo.signingInfo.apkContentsSigners
         } else {
             val packageInfo =
-                pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
             packageInfo.signatures
         }
 

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.farsitel.bazaar.auth.callback.BazaarSingInCallback
+import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.receiver.AuthReceiver
 import com.farsitel.bazaar.auth.util.AbortableCountDownLatch
@@ -15,16 +15,16 @@ internal class ReceiverAuthConnection(
     private val context: Context
 ) : AuthConnection(context) {
 
-    private var bazaarSingInCallback: BazaarSingInCallback? = null
+    private var bazaarSignInCallback: BazaarSignInCallback? = null
 
     private var getAccountIdLatch: AbortableCountDownLatch? = null
     private var bazaarSignInAccount: BazaarSignInAccount? = null
 
     override fun getLastAccountId(
         owner: LifecycleOwner,
-        callback: BazaarSingInCallback
+        callback: BazaarSignInCallback
     ) {
-        bazaarSingInCallback = callback
+        bazaarSignInCallback = callback
         sendBroadcastForLastAccountId(owner)
     }
 
@@ -50,7 +50,7 @@ internal class ReceiverAuthConnection(
     }
 
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner) {
-        AuthReceiver.authReceiveObserver.observe(owner, Observer { intent ->
+        AuthReceiver.authReceiveObservable.observe(owner, Observer { intent ->
             when (intent.action) {
                 GET_LAST_ACCOUNT_ACTION_RESPONSE ->
                     handleGetLastAccountResponse(
@@ -72,7 +72,7 @@ internal class ReceiverAuthConnection(
             null
         }
 
-        bazaarSingInCallback?.onAccountReceived(account)
+        bazaarSignInCallback?.onAccountReceived(account)
         getAccountIdLatch?.let {
             bazaarSignInAccount = account
             it.countDown()

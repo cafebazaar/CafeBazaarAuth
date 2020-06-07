@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.farsitel.bazaar.auth.BazaarSignIn
 import com.farsitel.bazaar.auth.BazaarSignInClient
-import com.farsitel.bazaar.auth.callback.BazaarSingInCallback
+import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 import com.farsitel.bazaar.auth.model.SignInOption
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         BazaarSignIn.getLastSignedInAccount(this,
             this,
-            BazaarSingInCallback { account ->
+            BazaarSignInCallback { account ->
                 updateUI(account)
             })
     }

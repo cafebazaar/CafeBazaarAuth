@@ -4,6 +4,6 @@ import androidx.annotation.Nullable;
 
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount;
 
-public interface BazaarSingInCallback {
+public interface BazaarSignInCallback {
     void onAccountReceived(@Nullable BazaarSignInAccount account);
 }
