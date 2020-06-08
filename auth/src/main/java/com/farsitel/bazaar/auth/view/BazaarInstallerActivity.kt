@@ -5,7 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.farsitel.bazaar.auth.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.auth.R
+import com.farsitel.bazaar.auth.model.InstallerType
 import com.farsitel.bazaar.auth.util.getAppName
 import com.farsitel.bazaar.auth.util.safeStartActivity
 import kotlinx.android.synthetic.main.cafe_installer_view.*
@@ -62,7 +64,7 @@ class BazaarInstallerActivity : AppCompatActivity() {
     private fun openUpdateBazaarInApplication() {
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse("bazaar://details?id=com.farsitel.bazaar")
-            setPackage("com.farsitel.bazaar")
+            setPackage(BAZAAR_PACKAGE_NAME)
         }
 
         safeStartActivity(intent)
@@ -101,10 +103,5 @@ class BazaarInstallerActivity : AppCompatActivity() {
                 context.safeStartActivity(it)
             }
         }
-    }
-
-    enum class InstallerType {
-        INSTALL,
-        UPDATE
     }
 }

@@ -15,16 +15,17 @@ class BazaarSignInClient internal constructor(
         return getSignInIntentWithScope(signInOption)
     }
 
-    private fun getSignInIntentWithScope(signInOption: BazaarSignInOptions) =
-        Intent(IAL_ACTION, Uri.parse(IAL_ACTION_URI))
+    private fun getSignInIntentWithScope(signInOption: BazaarSignInOptions) : Intent {
+        return Intent(IAL_ACTION, Uri.parse(IAL_ACTION_URI))
             .apply {
-                setPackage("com.farsitel.bazaar")
+                setPackage(BAZAAR_PACKAGE_NAME)
                 putExtra(AuthConnection.PACKAGE_NAME_KEY, activity.packageName)
                 putExtra(
                     PERMISSION_SCOPE_KEY,
                     signInOption.getScopes().map { it.ordinal }.toIntArray()
                 )
             }
+    }
 
     companion object {
         private const val IAL_ACTION = "ir.cafebazaar.intent.action.IAL"
@@ -32,5 +33,4 @@ class BazaarSignInClient internal constructor(
 
         private const val PERMISSION_SCOPE_KEY = "permissionScope"
     }
-
 }

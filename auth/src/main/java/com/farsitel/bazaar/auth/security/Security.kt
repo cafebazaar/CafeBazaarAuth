@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
+import com.farsitel.bazaar.auth.BAZAAR_PACKAGE_NAME
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.security.PublicKey
@@ -29,24 +30,28 @@ object Security {
 
     fun verifyBazaarIsInstalled(context: Context): Boolean {
         val packageManager: PackageManager = context.packageManager
-        val packageName = "com.farsitel.bazaar"
+        val packageName = BAZAAR_PACKAGE_NAME
 
         val signatures: Array<Signature> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val packageInfo =
-                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+            val packageInfo = packageManager.getPackageInfo(
+                packageName,
+                PackageManager.GET_SIGNING_CERTIFICATES
+            )
             packageInfo.signingInfo.apkContentsSigners
         } else {
-            val packageInfo =
-                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+            val packageInfo = packageManager.getPackageInfo(
+                packageName,
+                PackageManager.GET_SIGNATURES
+            )
             packageInfo.signatures
         }
 
         for (sig in signatures) {
             val input: InputStream = ByteArrayInputStream(sig.toByteArray())
-            val cf: CertificateFactory = CertificateFactory.getInstance("X509")
-            val cert: X509Certificate = cf.generateCertificate(input) as X509Certificate
-            val pb: PublicKey = cert.publicKey
-            val certificateHex = byte2HexFormatted(pb.encoded)
+            val certificateFactory: CertificateFactory = CertificateFactory.getInstance("X509")
+            val certificate: X509Certificate = certificateFactory.generateCertificate(input) as X509Certificate
+            val publicKey: PublicKey = certificate.publicKey
+            val certificateHex = byte2HexFormatted(publicKey.encoded)
             if (bazaarCertificateHex != certificateHex) {
                 return false
             }
@@ -55,21 +60,21 @@ object Security {
         return true
     }
 
-    private fun byte2HexFormatted(arr: ByteArray): String? {
-        val str = StringBuilder(arr.size * 2)
-        for (i in arr.indices) {
-            var h = Integer.toHexString(arr[i].toInt())
-            val length = h.length
+    private fun byte2HexFormatted(array: ByteArray): String? {
+        val stringBuilder = StringBuilder(array.size * 2)
+        for (index in array.indices) {
+            var suggestedHex = Integer.toHexString(array[index].toInt())
+            val length = suggestedHex.length
             if (length == 1) {
-                h = "0$h"
+                suggestedHex = "0$suggestedHex"
             } else if (length > 2) {
-                h = h.substring(length - 2, length)
+                suggestedHex = suggestedHex.substring(length - 2, length)
             }
-            str.append(h.toUpperCase(Locale.getDefault()))
-            if (i < arr.size - 1) {
-                str.append(':')
+            stringBuilder.append(suggestedHex.toUpperCase(Locale.getDefault()))
+            if (index < array.size - 1) {
+                stringBuilder.append(':')
             }
         }
-        return str.toString()
+        return stringBuilder.toString()
     }
 }

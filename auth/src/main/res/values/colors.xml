@@ -2,4 +2,5 @@
 <resources>
     <color name="white">#FFF</color>
     <color name="dark_text_color">#8F000000</color>
+    <color name="black_divider">#1F000000</color>
 </resources>

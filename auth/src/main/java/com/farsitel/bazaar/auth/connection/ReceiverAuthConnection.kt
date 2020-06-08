@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.farsitel.bazaar.auth.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.receiver.AuthReceiver
@@ -30,8 +31,7 @@ internal class ReceiverAuthConnection(
 
     override fun getLastAccountIdSync(owner: LifecycleOwner): BazaarSignInAccount? {
         sendBroadcastForLastAccountId(owner)
-        getAccountIdLatch =
-            AbortableCountDownLatch(1)
+        getAccountIdLatch = AbortableCountDownLatch(1)
         getAccountIdLatch!!.await()
         return bazaarSignInAccount
     }
@@ -43,8 +43,7 @@ internal class ReceiverAuthConnection(
     }
 
     private fun getNewIntentForBroadcast(action: String) = Intent().apply {
-        val bazaarPackage = "com.farsitel.bazaar"
-        setPackage(bazaarPackage)
+        setPackage(BAZAAR_PACKAGE_NAME)
         setAction(action)
         putExtra(PACKAGE_NAME_KEY, context.packageName)
     }
@@ -52,10 +51,9 @@ internal class ReceiverAuthConnection(
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner) {
         AuthReceiver.authReceiveObservable.observe(owner, Observer { intent ->
             when (intent.action) {
-                GET_LAST_ACCOUNT_ACTION_RESPONSE ->
-                    handleGetLastAccountResponse(
-                        intent.extras
-                    )
+                GET_LAST_ACCOUNT_ACTION_RESPONSE -> {
+                    handleGetLastAccountResponse(intent.extras)
+                }
             }
         })
     }
@@ -80,9 +78,8 @@ internal class ReceiverAuthConnection(
     }
 
     companion object {
-        private const val GET_LAST_ACCOUNT_ACTION = "com.farsitel.bazaar.lastAccount"
-
-        private const val GET_LAST_ACCOUNT_ACTION_RESPONSE = "com.farsitel.bazaar.lastAccountRes"
+        private const val GET_LAST_ACCOUNT_ACTION = "$BAZAAR_PACKAGE_NAME.lastAccount"
+        private const val GET_LAST_ACCOUNT_ACTION_RESPONSE = "$BAZAAR_PACKAGE_NAME.lastAccountRes"
     }
 
 }

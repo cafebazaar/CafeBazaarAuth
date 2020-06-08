@@ -16,10 +16,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var loginButton: View
     private lateinit var client: BazaarSignInClient
-    private val REQ_CODE = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +35,20 @@ class MainActivity : AppCompatActivity() {
             signInOption
         )
 
-        BazaarSignIn.getLastSignedInAccount(this,
-            this,
-            BazaarSignInCallback { account ->
+        updateBazaar.setOnClickListener {
+            BazaarHelper.showUpdateBazaarView(context = this)
+        }
+
+        installBazaar.setOnClickListener {
+            BazaarHelper.showInstallBazaarView(context = this)
+        }
+
+        accountId.text = "try to get last signedIn account"
+        BazaarSignIn.getLastSignedInAccount(
+            context = this,
+            owner = this,
+            callback = BazaarSignInCallback { account ->
+                accountId.text = "Account is fetched"
                 updateUI(account)
             })
 
@@ -53,9 +62,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_CODE) {
-            val account = BazaarSignIn.getSignedInAccountFromIntent(
-                data
-            )
+            val account = BazaarSignIn.getSignedInAccountFromIntent(data)
             updateUI(account)
         }
     }
@@ -72,5 +79,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "you are login", Toast.LENGTH_LONG).show()
         }
 
+    }
+
+    companion object {
+        private const val REQ_CODE = 123
     }
 }

@@ -5,7 +5,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
-import java.util.Locale
+import java.util.*
 
 val PackageInfo.versionCodeSDKAware: Long
     get() {
@@ -30,15 +30,20 @@ internal fun getAppName(context: Context) =
         Locale("fa")
     )
 
-fun PackageInfo.appName(context: Context, locale: Locale): String? = try {
-    val applicationInfo =
-        context.packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+internal fun PackageInfo.appName(context: Context, locale: Locale): String? = try {
+    val applicationInfo = context.packageManager.getApplicationInfo(
+        packageName,
+        PackageManager.GET_META_DATA
+    )
 
     val configuration = Configuration()
     configuration.setLocale(locale)
 
-    val callingAppContext =
-        context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
+    val callingAppContext = context.createPackageContext(
+        packageName,
+        Context.CONTEXT_IGNORE_SECURITY
+    )
+
     val updatedContext = callingAppContext.createConfigurationContext(configuration)
 
     if (applicationInfo.labelRes != 0) {

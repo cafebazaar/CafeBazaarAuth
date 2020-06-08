@@ -4,7 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 
-fun Context.safeStartActivity(intent: Intent) {
+internal fun Context.safeStartActivity(intent: Intent) {
     try {
         startActivity(intent)
     } catch (ane: ActivityNotFoundException) {

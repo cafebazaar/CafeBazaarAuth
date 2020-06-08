@@ -2,18 +2,22 @@ package com.farsitel.bazaar.auth.util
 
 import android.util.Log
 
-object InAppLoginLogger {
-    var mDebugLog = false
-    val mDebugTag = "BazaarInAppLogin"
+internal object InAppLoginLogger {
+
+    var debugLog = false
+    private const val DEBUG_TAG = "BazaarInAppLogin"
+
     fun logDebug(msg: String) {
-        if (mDebugLog) Log.d(mDebugTag, msg)
+        if (debugLog) {
+            Log.d(DEBUG_TAG, msg)
+        }
     }
 
     fun logError(msg: String?) {
-        Log.e(mDebugTag, "In-app login error: $msg")
+        Log.e(DEBUG_TAG, "In-app login error: $msg")
     }
 
     fun logWarn(msg: String) {
-        Log.w(mDebugTag, "In-app login warning: $msg")
+        Log.w(DEBUG_TAG, "In-app login warning: $msg")
     }
 }

@@ -11,12 +11,14 @@ object BazaarHelper {
     private const val BAZAAR_PACKAGE_NAME = "com.farsitel.bazaar"
     private const val BAZAAR_WITH_AUTH_VERSION = 801300
 
-    fun isBazaarInstalledOnDevice(context: Context): Boolean =
-        getPackageInfo(context, BAZAAR_PACKAGE_NAME) != null &&
+    fun isBazaarInstalledOnDevice(context: Context): Boolean {
+        return getPackageInfo(context, BAZAAR_PACKAGE_NAME) != null &&
                 Security.verifyBazaarIsInstalled(context)
+    }
 
-    fun isNeededToUpdateBazaar(context: Context): Boolean =
-        getBazaarVersion(context) >= BAZAAR_WITH_AUTH_VERSION
+    fun isNeededToUpdateBazaar(context: Context): Boolean {
+        return getBazaarVersion(context) >= BAZAAR_WITH_AUTH_VERSION
+    }
 
     fun showInstallBazaarView(context: Context) {
         BazaarInstallerActivity.startCafeInstallerActivityForInstallBazaar(context)
@@ -26,8 +28,10 @@ object BazaarHelper {
         BazaarInstallerActivity.startCafeInstallerActivityForUpdateBazaar(context)
     }
 
-    private fun getBazaarVersion(context: Context) = getPackageInfo(
-        context,
-        BAZAAR_PACKAGE_NAME
-    )?.versionCodeSDKAware ?: -1
+    private fun getBazaarVersion(context: Context) : Long {
+        return getPackageInfo(
+            context,
+            BAZAAR_PACKAGE_NAME
+        )?.versionCodeSDKAware ?: -1
+    }
 }

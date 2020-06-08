@@ -15,16 +15,18 @@ object AuthResponseHandler {
     private const val IAL_STATUE_DEVELOPER_ERROR: Int = -2
     private const val IAL_STATUE_ACCOUNT_NOT_EXISTS: Int = -3
 
-    fun isSuccessful(extras: Bundle): Boolean =
-        extras.getInt(KEY_IAL_STATUE) == IAL_STATUE_SUCCESS
+    fun isSuccessful(extras: Bundle): Boolean {
+        return extras.getInt(KEY_IAL_STATUE) == IAL_STATUE_SUCCESS
+    }
 
-    fun getErrorMessage(extras: Bundle): String? =
-        when (extras.getInt(KEY_IAL_STATUE)) {
+    fun getErrorMessage(extras: Bundle): String? {
+        return when (extras.getInt(KEY_IAL_STATUE)) {
             IAL_STATUE_FAILED,
             IAL_STATUE_DEVELOPER_ERROR -> extras.getString(KEY_IAL_ERROR_MESSAGE)
             IAL_STATUE_ACCOUNT_NOT_EXISTS -> "Account not exists for packageName"
             else -> null
         }
+    }
 
     fun getAccountByBundle(extras: Bundle): BazaarSignInAccount? {
 

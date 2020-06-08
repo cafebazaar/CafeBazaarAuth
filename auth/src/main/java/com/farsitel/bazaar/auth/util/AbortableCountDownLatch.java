@@ -6,12 +6,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class AbortableCountDownLatch extends CountDownLatch {
+
     protected boolean aborted = false;
 
     public AbortableCountDownLatch(int count) {
         super(count);
     }
-
 
     /**
      * Unblocks all threads waiting on this latch and cause them to receive an
@@ -28,7 +28,6 @@ public class AbortableCountDownLatch extends CountDownLatch {
             countDown();
         }
     }
-
 
     @Override
     public boolean await(long timeout, @NotNull TimeUnit unit) throws InterruptedException {

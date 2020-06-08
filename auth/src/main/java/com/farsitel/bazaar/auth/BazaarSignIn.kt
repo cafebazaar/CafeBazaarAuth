@@ -10,36 +10,35 @@ import com.farsitel.bazaar.auth.connection.AuthConnection.Companion.getAuthConne
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 
-class BazaarSignIn {
+object BazaarSignIn {
 
-    companion object {
+    @JvmStatic
+    fun getLastSignedInAccount(
+        context: Context,
+        owner: LifecycleOwner,
+        callback: BazaarSignInCallback
+    ) {
+        getAuthConnection(context).getLastAccountId(owner, callback)
+    }
 
-        @JvmStatic
-        fun getLastSignedInAccount(
-            context: Context,
-            owner: LifecycleOwner,
-            callback: BazaarSignInCallback
-        ) {
-            getAuthConnection(context).getLastAccountId(owner, callback)
+    @JvmStatic
+    fun getLastSignedInAccountSync(
+        context: Context,
+        owner: LifecycleOwner
+    ): BazaarSignInAccount? {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            throw IllegalStateException("Can't call this method on UI thread.")
         }
+        return getAuthConnection(context).getLastAccountIdSync(owner)
+    }
 
-        @JvmStatic
-        fun getLastSignedInAccountSync(
-            context: Context,
-            owner: LifecycleOwner
-        ): BazaarSignInAccount? {
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                throw IllegalStateException("Can't call this method on UI thread.")
-            }
-            return getAuthConnection(context).getLastAccountIdSync(owner)
-        }
+    @JvmStatic
+    fun getClient(activity: Activity, signInOption: BazaarSignInOptions): BazaarSignInClient {
+        return BazaarSignInClient(signInOption, activity)
+    }
 
-        @JvmStatic
-        fun getClient(activity: Activity, signInOption: BazaarSignInOptions) =
-            BazaarSignInClient(signInOption, activity)
-
-        @JvmStatic
-        fun getSignedInAccountFromIntent(data: Intent?) =
-            BazaarSignInResult.getAccountFromIntent(data)
+    @JvmStatic
+    fun getSignedInAccountFromIntent(data: Intent?): BazaarSignInAccount? {
+        return BazaarSignInResult.getAccountFromIntent(data)
     }
 }
