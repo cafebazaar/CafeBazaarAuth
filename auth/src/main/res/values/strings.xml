@@ -4,7 +4,7 @@
     <string name="update">بروزرسانی</string>
     <string name="login_normal">ورود</string>
     <string name="login_big">ورود با بازار</string>
-    <string name="install_desc">برای اتصال %1s$ به بازار، ابتدا باید برنامه بازار را نصب کنید</string>
-    <string name="update_desc">برای اتصال %1s$ به بازار، ابتدا باید برنامه بازار را بروزرسانی کنید</string>
+    <string name="install_desc">برای اتصال %s به بازار، ابتدا باید برنامه بازار را نصب کنید</string>
+    <string name="update_desc">برای اتصال %s به بازار، ابتدا باید برنامه بازار را بروزرسانی کنید</string>
     <string name="unknownApp">برنامه‌ی انتخابی</string>
 </resources>

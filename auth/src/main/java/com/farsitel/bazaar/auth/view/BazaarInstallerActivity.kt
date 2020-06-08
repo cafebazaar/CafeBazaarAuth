@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.farsitel.bazaar.auth.R
 import com.farsitel.bazaar.auth.util.getAppName
+import com.farsitel.bazaar.auth.util.safeStartActivity
 import kotlinx.android.synthetic.main.cafe_installer_view.*
 import kotlinx.android.synthetic.main.cafe_update_view.*
 
@@ -64,7 +65,7 @@ class BazaarInstallerActivity : AppCompatActivity() {
             setPackage("com.farsitel.bazaar")
         }
 
-        startActivity(intent)
+        safeStartActivity(intent)
     }
 
     private fun openInstallBazaarPage() {
@@ -73,7 +74,7 @@ class BazaarInstallerActivity : AppCompatActivity() {
             Uri.parse("https://cafebazaar.ir/install")
         )
 
-        startActivity(intent)
+        safeStartActivity(intent)
     }
 
     companion object {
@@ -97,7 +98,7 @@ class BazaarInstallerActivity : AppCompatActivity() {
                 putExtra(INSTALLER_TYPE, installerType.ordinal)
                 putExtra(APPLICATION_NAME, getAppName(context))
             }.also {
-                context.startActivity(it)
+                context.safeStartActivity(it)
             }
         }
     }

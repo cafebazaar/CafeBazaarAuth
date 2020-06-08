@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.farsitel.bazaar.auth.BazaarHelper
 import com.farsitel.bazaar.auth.BazaarSignIn
 import com.farsitel.bazaar.auth.BazaarSignInClient
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 import com.farsitel.bazaar.auth.model.SignInOption
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +42,12 @@ class MainActivity : AppCompatActivity() {
             BazaarSignInCallback { account ->
                 updateUI(account)
             })
+
+        if (!BazaarHelper.isBazaarInstalledOnDevice(this)) {
+            BazaarHelper.showInstallBazaarView(this)
+        } else if (BazaarHelper.isNeededToUpdateBazaar(this)) {
+            BazaarHelper.showUpdateBazaarView(this)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -60,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             loginButton.setOnClickListener(null)
+            accountId.text = account.accountId
             Toast.makeText(this, "you are login", Toast.LENGTH_LONG).show()
         }
 
