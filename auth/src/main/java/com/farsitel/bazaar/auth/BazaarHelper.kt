@@ -8,7 +8,6 @@ import com.farsitel.bazaar.auth.view.BazaarInstallerActivity
 
 object BazaarHelper {
 
-    private const val BAZAAR_PACKAGE_NAME = "com.farsitel.bazaar"
     private const val BAZAAR_WITH_AUTH_VERSION = 801300
 
     fun isBazaarInstalledOnDevice(context: Context): Boolean {
