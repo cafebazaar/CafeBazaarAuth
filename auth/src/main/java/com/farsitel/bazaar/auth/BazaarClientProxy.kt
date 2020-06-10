@@ -6,7 +6,7 @@ import com.farsitel.bazaar.auth.util.getPackageInfo
 import com.farsitel.bazaar.auth.util.versionCodeSDKAware
 import com.farsitel.bazaar.auth.view.BazaarInstallerActivity
 
-object BazaarHelper {
+object BazaarClientProxy {
 
     private const val BAZAAR_WITH_AUTH_VERSION = 801500
 

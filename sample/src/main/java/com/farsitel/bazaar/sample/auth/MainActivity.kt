@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.farsitel.bazaar.auth.BazaarHelper
+import com.farsitel.bazaar.auth.BazaarClientProxy
 import com.farsitel.bazaar.auth.BazaarSignIn
 import com.farsitel.bazaar.auth.BazaarSignInClient
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
@@ -36,11 +36,11 @@ class MainActivity : AppCompatActivity() {
         )
 
         updateBazaar.setOnClickListener {
-            BazaarHelper.showUpdateBazaarView(context = this)
+            BazaarClientProxy.showUpdateBazaarView(context = this)
         }
 
         installBazaar.setOnClickListener {
-            BazaarHelper.showInstallBazaarView(context = this)
+            BazaarClientProxy.showInstallBazaarView(context = this)
         }
 
         accountId.text = "try to get last signedIn account"
