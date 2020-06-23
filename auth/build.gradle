@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 ext {
-    package_id = 'Auth'
-    artifact_id = 'auth'
+    package_id = 'BazaarAuth'
+    artifact_id = 'bazaarAuth'
 }
 
 android {
