@@ -10,7 +10,7 @@ install {
                 groupId 'com.farsitel.bazaar'
                 artifactId project.artifact_id
 
-                name 'BazaarAuth'
+                name 'bazaarAuth'
                 url 'https://github.com/cafebazaar/CafeBazaarAuth'
 
                 licenses {
