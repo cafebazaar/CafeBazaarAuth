@@ -30,7 +30,7 @@ bintray {
 
     configurations = ['archives']
     pkg {
-        repo = "Auth"
+        repo = "BazaarAuth"
         name = project.package_id
         websiteUrl = 'https://github.com/cafebazaar/CafeBazaarAuth'
         vcsUrl = 'https://github.com/cafebazaar/CafeBazaarAuth.git'
