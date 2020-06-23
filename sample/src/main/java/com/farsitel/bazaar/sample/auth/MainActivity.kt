@@ -52,10 +52,10 @@ class MainActivity : AppCompatActivity() {
                 updateUI(account)
             })
 
-        if (!BazaarHelper.isBazaarInstalledOnDevice(this)) {
-            BazaarHelper.showInstallBazaarView(this)
-        } else if (BazaarHelper.isNeededToUpdateBazaar(this)) {
-            BazaarHelper.showUpdateBazaarView(this)
+        if (!BazaarClientProxy.isBazaarInstalledOnDevice(this)) {
+            BazaarClientProxy.showInstallBazaarView(this)
+        } else if (BazaarClientProxy.isNeededToUpdateBazaar(this)) {
+            BazaarClientProxy.showUpdateBazaarView(this)
         }
     }
 
