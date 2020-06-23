@@ -1,3 +1,6 @@
+ [![](https://api.bintray.com/packages/shayanpourvatan/BazaarAuth/BazaarAuth/images/download.svg
+)](https://bintray.com/beta/#/shayanpourvatan/BazaarAuth?tab=packages)  
+
 # BazaarAuth
 
 Using this library, you can always access your users without having to implement a local login. Firstly, this reduces uncertainty/lack of security and bot users due to its unified login solution. It also reduces the cost of user authentication by email or text message. Furthermore, you do not lose user’s history and data in your app after uninstalling or changing the device.
