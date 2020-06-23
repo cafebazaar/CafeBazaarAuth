@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LoginButton">
+        <attr name="size" format="enum">
+            <enum name="NORMAL" value="0" />
+            <enum name="BIG" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
