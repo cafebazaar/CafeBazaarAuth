@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateUI(account: BazaarSignInAccount?) {
         if (account == null) {
             loginButton.setOnClickListener {
-                val intent = client.getSignInIntentWithScope()
+                val intent = client.getSignInIntent()
                 startActivityForResult(intent, REQ_CODE)
             }
         } else {
