@@ -15,7 +15,7 @@ object BazaarSignIn {
     @JvmStatic
     fun getLastSignedInAccount(
         context: Context,
-        owner: LifecycleOwner,
+        owner: LifecycleOwner?,
         callback: BazaarSignInCallback
     ) {
         getAuthConnection(context).getLastAccountId(owner, callback)
@@ -24,7 +24,7 @@ object BazaarSignIn {
     @JvmStatic
     fun getLastSignedInAccountSync(
         context: Context,
-        owner: LifecycleOwner
+        owner: LifecycleOwner?
     ): BazaarSignInAccount? {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             throw IllegalStateException("Can't call this method on UI thread.")
