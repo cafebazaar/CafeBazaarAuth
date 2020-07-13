@@ -7,8 +7,8 @@ import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 
 internal abstract class AuthConnection(private val context: Context) {
 
-    abstract fun getLastAccountId(owner: LifecycleOwner, callback: BazaarSignInCallback)
-    abstract fun getLastAccountIdSync(owner: LifecycleOwner): BazaarSignInAccount?
+    abstract fun getLastAccountId(owner: LifecycleOwner?, callback: BazaarSignInCallback)
+    abstract fun getLastAccountIdSync(owner: LifecycleOwner?): BazaarSignInAccount?
 
     companion object {
         const val PACKAGE_NAME_KEY = "packageName"

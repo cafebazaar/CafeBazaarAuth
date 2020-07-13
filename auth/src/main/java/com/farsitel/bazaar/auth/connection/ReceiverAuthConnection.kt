@@ -22,21 +22,21 @@ internal class ReceiverAuthConnection(
     private var bazaarSignInAccount: BazaarSignInAccount? = null
 
     override fun getLastAccountId(
-        owner: LifecycleOwner,
+        owner: LifecycleOwner?,
         callback: BazaarSignInCallback
     ) {
         bazaarSignInCallback = callback
         sendBroadcastForLastAccountId(owner)
     }
 
-    override fun getLastAccountIdSync(owner: LifecycleOwner): BazaarSignInAccount? {
+    override fun getLastAccountIdSync(owner: LifecycleOwner?): BazaarSignInAccount? {
         sendBroadcastForLastAccountId(owner)
         getAccountIdLatch = AbortableCountDownLatch(1)
         getAccountIdLatch!!.await()
         return bazaarSignInAccount
     }
 
-    private fun sendBroadcastForLastAccountId(owner: LifecycleOwner) {
+    private fun sendBroadcastForLastAccountId(owner: LifecycleOwner?) {
         listenOnIncomingBroadcastReceiver(owner)
         val intent = getNewIntentForBroadcast(GET_LAST_ACCOUNT_ACTION)
         context.sendBroadcast(intent)
@@ -48,14 +48,20 @@ internal class ReceiverAuthConnection(
         putExtra(PACKAGE_NAME_KEY, context.packageName)
     }
 
-    private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner) {
-        AuthReceiver.authReceiveObservable.observe(owner, Observer { intent ->
+    private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
+        val observer = Observer<Intent> { intent ->
             when (intent.action) {
                 GET_LAST_ACCOUNT_ACTION_RESPONSE -> {
                     handleGetLastAccountResponse(intent.extras)
                 }
             }
-        })
+        }
+
+        if (owner == null) {
+            AuthReceiver.authReceiveObservable.observeForever(observer)
+        } else {
+            AuthReceiver.authReceiveObservable.observe(owner, observer)
+        }
     }
 
     private fun handleGetLastAccountResponse(extras: Bundle?) {
