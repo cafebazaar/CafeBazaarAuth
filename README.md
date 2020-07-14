@@ -17,12 +17,12 @@ dependencies {
 
 # How to use
 
-To login the user, you'll need to create a `CafeSignIn` object:
+To login the user, you'll need to create a `BazaarSignIn` object:
 
 ```
-val signInOption = CafeSignInOptions.Builder(SignInOption.DEFAULT_SIGN_IN).build()
+val signInOption = BazaarSignInOptions.Builder(SignInOption.DEFAULT_SIGN_IN).build()
 
-client = CafeSignIn.getClient(
+client = BazaarSignIn.getClient(
     context,
     signInOption
 )
@@ -38,7 +38,7 @@ startActivityForResult(intent, REQ_CODE)
 To parse the data from Bazaar and receive the account, recall the following method in `onActivityResult`:
 
 ```
-val account = CafeSignIn.getSignedInAccountFromIntent(intent)
+val account = BazaarSignIn.getSignedInAccountFromIntent(intent)
 ```
 
 In case the user has granted the login access, the returned `account` is not null and you can read data from the `account` model.
@@ -46,7 +46,7 @@ In case the user has granted the login access, the returned `account` is not nul
 In case the user has already granted the access, use the following method to get the latest data:
 
 ```
-CafeSignIn.getLastSignedInAccount(this, this,CafeSingInCallback { account ->
+BazaarSignIn.getLastSignedInAccount(this, this,BazaarSingInCallback { account ->
         updateUI(account)
  })
 ```
@@ -55,7 +55,7 @@ In case the user has not granted the login access, the `account` value is null.
 
 To receive the information by sync method, you can use the following method:
 ```
-val account = CafeSignIn.getLastSignedInAccountSync(this, this)
+val account = BazaarSignIn.getLastSignedInAccountSync(this, this)
 ```
 **Caution:** You are not able to call the above method on the Main thread.
 
@@ -76,7 +76,7 @@ The `size` value in this widget can be `BIG` or ` NORMAL` which sets the button 
 In order to prevent phishing and information theft, use the following method to ensure that the correct version of Bazaar is available on the user device:
 
 ```
-CafeHelper.isBazaarInstalledOnDevice(context)
+BazaarClientProxy.isBazaarInstalledOnDevice(context)
 ```
 
 # Bazaar in client device
@@ -84,17 +84,17 @@ CafeHelper.isBazaarInstalledOnDevice(context)
 To ensure that the Bazaar app version on the user device supports Bazaar login, use the following method:
 
 ```
-CafeHelper.isBazaarNeedToUpdate(context)
+BazaarClientProxy.isBazaarNeedToUpdate(context)
 ```
 
 If the Bazaar app is not installed, you can use following method:
 
 ```
-CafeHelper.showInstallBazaarView(context)
+BazaarClientProxy.showInstallBazaarView(context)
 ```
 
 In case an update for the Bazaar app is required, use the following method:
 
 ```
-CafeHelper.showUpdateBazaarView(context)
+BazaarClientProxy.showUpdateBazaarView(context)
 ```
