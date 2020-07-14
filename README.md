@@ -84,7 +84,7 @@ BazaarClientProxy.isBazaarInstalledOnDevice(context)
 To ensure that the Bazaar app version on the user device supports Bazaar login, use the following method:
 
 ```
-BazaarClientProxy.isBazaarNeedToUpdate(context)
+BazaarClientProxy.isNeededToUpdateBazaar(context)
 ```
 
 If the Bazaar app is not installed, you can use following method:
