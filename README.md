@@ -31,7 +31,7 @@ client = CafeSignIn.getClient(
 At the moment, you can only retrieve the default information which includes `accountID`. More features will be added soon. After creating this object, you can receive the user login intent by recalling the following method and guide the user to the Bazaar login page:
 
 ```
-val intent = client.getSignInIntentWithScope()
+val intent = client.getSignInIntent()
 startActivityForResult(intent, REQ_CODE)
 ```
 
