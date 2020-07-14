@@ -3,7 +3,10 @@ ext {
     libraryVersions = [
             'kotlin'   : '1.3.71',
             'appcompat': '1.1.0',
-            'fragment' : '1.1.0'
+            'fragment' : '1.1.0',
+            'androidx' : '1.2.0',
+
+            'junit' : '4.12'
     ]
 
     pluginVersions = [
