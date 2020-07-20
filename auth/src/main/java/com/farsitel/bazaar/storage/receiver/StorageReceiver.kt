@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.auth.receiver
+package com.farsitel.bazaar.storage.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,15 +6,15 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import com.farsitel.bazaar.util.SingleLiveEvent
 
-class AuthReceiver : BroadcastReceiver() {
+class StorageReceiver : BroadcastReceiver() {
 
     companion object {
-        private val _authReceiveObservable =
+        private val _storageReceiveObservable =
             SingleLiveEvent<Intent>()
-        val authReceiveObservable: LiveData<Intent> = _authReceiveObservable
+        val storageReceiveObservable: LiveData<Intent> = _storageReceiveObservable
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        _authReceiveObservable.value = intent
+        _storageReceiveObservable.value = intent
     }
 }

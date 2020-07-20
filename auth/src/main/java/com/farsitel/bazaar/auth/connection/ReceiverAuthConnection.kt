@@ -5,12 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.farsitel.bazaar.auth.BAZAAR_PACKAGE_NAME
+import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.receiver.AuthReceiver
-import com.farsitel.bazaar.auth.util.AbortableCountDownLatch
-import com.farsitel.bazaar.auth.util.InAppLoginLogger
+import com.farsitel.bazaar.util.AbortableCountDownLatch
+import com.farsitel.bazaar.util.InAppLoginLogger
 
 internal class ReceiverAuthConnection(
     private val context: Context

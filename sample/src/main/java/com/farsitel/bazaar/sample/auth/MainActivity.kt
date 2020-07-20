@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.farsitel.bazaar.auth.BazaarClientProxy
+import com.farsitel.bazaar.BazaarClientProxy
 import com.farsitel.bazaar.auth.BazaarSignIn
 import com.farsitel.bazaar.auth.BazaarSignInClient
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback

@@ -1,9 +1,9 @@
-package com.farsitel.bazaar.auth
+package com.farsitel.bazaar
 
 import android.content.Context
 import com.farsitel.bazaar.auth.security.Security
-import com.farsitel.bazaar.auth.util.getPackageInfo
-import com.farsitel.bazaar.auth.util.versionCodeSDKAware
+import com.farsitel.bazaar.util.getPackageInfo
+import com.farsitel.bazaar.util.versionCodeSDKAware
 import com.farsitel.bazaar.auth.view.BazaarInstallerActivity
 
 object BazaarClientProxy {
@@ -11,7 +11,10 @@ object BazaarClientProxy {
     private const val BAZAAR_WITH_AUTH_VERSION = 801500
 
     fun isBazaarInstalledOnDevice(context: Context): Boolean {
-        return getPackageInfo(context, BAZAAR_PACKAGE_NAME) != null &&
+        return getPackageInfo(
+            context,
+            BAZAAR_PACKAGE_NAME
+        ) != null &&
                 Security.verifyBazaarIsInstalled(context)
     }
 

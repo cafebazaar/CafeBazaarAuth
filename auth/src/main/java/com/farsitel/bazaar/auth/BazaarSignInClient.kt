@@ -3,6 +3,7 @@ package com.farsitel.bazaar.auth
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.auth.connection.AuthConnection
 import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 

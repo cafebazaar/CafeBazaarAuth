@@ -2,13 +2,23 @@
     package="com.farsitel.bazaar.auth">
 
     <application>
+        <activity
+            android:name=".view.BazaarInstallerActivity"
+            android:theme="@style/Theme.Transparent" />
+
         <receiver android:name="com.farsitel.bazaar.auth.receiver.AuthReceiver">
             <intent-filter>
                 <action android:name="com.farsitel.bazaar.lastAccountRes" />
             </intent-filter>
         </receiver>
-        <activity
-            android:theme="@style/Theme.Transparent"
-            android:name=".view.BazaarInstallerActivity" />
+
+        <receiver android:name="com.farsitel.bazaar.storage.receiver.StorageReceiver">
+            <intent-filter>
+                <action android:name="com.farsitel.bazaar.getSavedData" />
+                <action android:name="com.farsitel.bazaar.getSavedDataRes" />
+                <action android:name="com.farsitel.bazaar.setData" />
+                <action android:name="com.farsitel.bazaar.setDataRes" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
