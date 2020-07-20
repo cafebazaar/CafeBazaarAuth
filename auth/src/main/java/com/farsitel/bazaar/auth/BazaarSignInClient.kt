@@ -12,11 +12,11 @@ class BazaarSignInClient internal constructor(
     private val activity: Activity
 ) {
 
-    fun getSignInIntentWithScope(): Intent {
-        return getSignInIntentWithScope(signInOption)
+    fun getSignInIntent(): Intent {
+        return getSignInIntent(signInOption)
     }
 
-    private fun getSignInIntentWithScope(signInOption: BazaarSignInOptions) : Intent {
+    private fun getSignInIntent(signInOption: BazaarSignInOptions) : Intent {
         return Intent(IAL_ACTION, Uri.parse(IAL_ACTION_URI))
             .apply {
                 setPackage(BAZAAR_PACKAGE_NAME)
