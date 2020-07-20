@@ -6,10 +6,10 @@ import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
+import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 import com.farsitel.bazaar.storage.receiver.StorageReceiver
 import com.farsitel.bazaar.util.AbortableCountDownLatch
 import com.farsitel.bazaar.util.InAppLoginLogger
-import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 
 internal class ReceiverStorageConnection(
     private val context: Context
@@ -23,12 +23,12 @@ internal class ReceiverStorageConnection(
 
     private var bazaarStorage: String? = null
 
-    override fun getSavedData(owner: LifecycleOwner, callback: BazaarStorageCallback) {
+    override fun getSavedData(owner: LifecycleOwner?, callback: BazaarStorageCallback) {
         bazaarGetStorageCallback = callback
         sendBroadcastForGetSavedData(owner)
     }
 
-    override fun getSavedDataSync(owner: LifecycleOwner): String? {
+    override fun getSavedDataSync(owner: LifecycleOwner?): String? {
         sendBroadcastForGetSavedData(owner)
         getStorageLatch = AbortableCountDownLatch(1)
         getStorageLatch!!.await()
@@ -36,32 +36,32 @@ internal class ReceiverStorageConnection(
     }
 
 
-    override fun savedData(owner: LifecycleOwner, data: String, callback: BazaarStorageCallback) {
+    override fun savedData(owner: LifecycleOwner?, data: String, callback: BazaarStorageCallback) {
         bazaarGetStorageCallback = callback
         sendBroadcastForSaveData(owner)
     }
 
-    override fun savedDataSync(owner: LifecycleOwner, data: String) {
+    override fun savedDataSync(owner: LifecycleOwner?, data: String) {
         sendBroadcastForSaveData(owner)
         setStorageLatch = AbortableCountDownLatch(1)
         setStorageLatch!!.await()
     }
 
-    private fun sendBroadcastForGetSavedData(owner: LifecycleOwner) {
+    private fun sendBroadcastForGetSavedData(owner: LifecycleOwner?) {
         listenOnIncomingBroadcastReceiver(owner)
         val intent = getNewIntentForBroadcast(ACTION_STORAGE_GET_DATA)
         context.sendBroadcast(intent)
     }
 
-    private fun sendBroadcastForSaveData(owner: LifecycleOwner) {
+    private fun sendBroadcastForSaveData(owner: LifecycleOwner?) {
         listenOnIncomingBroadcastReceiver(owner)
         val intent = getNewIntentForBroadcast(ACTION_STORAGE_SET_DATA)
         context.sendBroadcast(intent)
     }
 
 
-    private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner) {
-        StorageReceiver.storageReceiveObservable.observe(owner, Observer { intent ->
+    private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
+        val observer = Observer<Intent> { intent ->
             when (intent.action) {
                 ACTION_STORAGE_GET_DATA_RESPONSE -> {
                     handleGetSavedDataResponse(intent.extras)
@@ -74,7 +74,13 @@ internal class ReceiverStorageConnection(
                     context.sendBroadcast(intent)
                 }
             }
-        })
+        }
+
+        if (owner == null) {
+            StorageReceiver.storageReceiveObservable.observeForever(observer)
+        } else {
+            StorageReceiver.storageReceiveObservable.observe(owner, observer)
+        }
     }
 
     private fun getNewIntentForBroadcast(action: String, bundle: Bundle? = null) = Intent().apply {
@@ -122,10 +128,10 @@ internal class ReceiverStorageConnection(
     }
 
     companion object {
-        private const val ACTION_STORAGE_GET_DATA = "$BAZAAR_PACKAGE_NAME.getSavedData"
-        private const val ACTION_STORAGE_GET_DATA_RESPONSE = "$BAZAAR_PACKAGE_NAME.getSavedDataRes"
+        private const val ACTION_STORAGE_GET_DATA = "$BAZAAR_PACKAGE_NAME.getInAppData"
+        private const val ACTION_STORAGE_GET_DATA_RESPONSE = "$BAZAAR_PACKAGE_NAME.getInAppDataRes"
 
-        private const val ACTION_STORAGE_SET_DATA = "$BAZAAR_PACKAGE_NAME.setData"
-        private const val ACTION_STORAGE_SET_DATA_RESPONSE = "$BAZAAR_PACKAGE_NAME.setDataRes"
+        private const val ACTION_STORAGE_SET_DATA = "$BAZAAR_PACKAGE_NAME.setInAppData"
+        private const val ACTION_STORAGE_SET_DATA_RESPONSE = "$BAZAAR_PACKAGE_NAME.setInAppDataRes"
     }
 }

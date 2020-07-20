@@ -1,46 +1,55 @@
 package com.farsitel.bazaar.storage
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
-import com.farsitel.bazaar.auth.BazaarSignInClient
-import com.farsitel.bazaar.auth.BazaarSignInResult
-import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
-import com.farsitel.bazaar.auth.connection.AuthConnection
-import com.farsitel.bazaar.auth.model.BazaarSignInAccount
-import com.farsitel.bazaar.auth.model.BazaarSignInOptions
+import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
+import com.farsitel.bazaar.storage.connection.StorageConnection
 
 object BazaarStorage {
 
     @JvmStatic
     fun getSavedData(
         context: Context,
-        owner: LifecycleOwner,
-        callback: BazaarSignInCallback
+        owner: LifecycleOwner?,
+        callback: BazaarStorageCallback
     ) {
-        AuthConnection.getAuthConnection(context).getLastAccountId(owner, callback)
+        StorageConnection.getStorageConnection(context).getSavedData(owner, callback)
     }
 
     @JvmStatic
     fun getSavedDataSync(
         context: Context,
-        owner: LifecycleOwner
-    ): BazaarSignInAccount? {
+        owner: LifecycleOwner?
+    ): String? {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             throw IllegalStateException("Can't call this method on UI thread.")
         }
-        return AuthConnection.getAuthConnection(context).getLastAccountIdSync(owner)
+        return StorageConnection.getStorageConnection(context).getSavedDataSync(owner)
     }
 
     @JvmStatic
-    fun getClient(activity: Activity, signInOption: BazaarSignInOptions): BazaarSignInClient {
-        return BazaarSignInClient(signInOption, activity)
+    fun saveData(
+        context: Context,
+        owner: LifecycleOwner?,
+        data: String,
+        callback: BazaarStorageCallback
+    ) {
+        StorageConnection.getStorageConnection(context).savedData(owner, data, callback)
     }
 
     @JvmStatic
-    fun getSignedInAccountFromIntent(data: Intent?): BazaarSignInAccount? {
-        return BazaarSignInResult.getAccountFromIntent(data)
+    fun saveDataSync(
+        context: Context,
+        owner: LifecycleOwner?,
+        data: String
+    ) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            throw IllegalStateException("Can't call this method on UI thread.")
+        }
+
+        StorageConnection.getStorageConnection(context).savedDataSync(owner, data)
     }
+
+
 }
