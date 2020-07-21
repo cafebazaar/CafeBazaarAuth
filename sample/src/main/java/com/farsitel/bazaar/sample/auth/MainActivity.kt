@@ -14,6 +14,7 @@ import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 import com.farsitel.bazaar.auth.model.SignInOption
 import com.farsitel.bazaar.storage.BazaarStorage
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
+import com.farsitel.bazaar.util.toReadableString
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 context = this@MainActivity,
                 owner = this@MainActivity,
                 callback = BazaarStorageCallback {
-                    dataTV.text = it
+                    dataTV.text = it?.toReadableString()
                 }
             )
         }
@@ -59,9 +60,9 @@ class MainActivity : AppCompatActivity() {
             BazaarStorage.saveData(
                 context = this@MainActivity,
                 owner = this@MainActivity,
-                data = dataET.text.toString(),
+                data = dataET.text.toString().toByteArray(),
                 callback = BazaarStorageCallback {
-                    dataTV.text = it
+                    dataTV.text = it?.toReadableString()
                 }
             )
         }

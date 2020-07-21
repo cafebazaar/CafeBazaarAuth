@@ -10,6 +10,8 @@ import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 import com.farsitel.bazaar.storage.receiver.StorageReceiver
 import com.farsitel.bazaar.util.AbortableCountDownLatch
 import com.farsitel.bazaar.util.InAppLoginLogger
+import com.farsitel.bazaar.util.fromBase64
+import com.farsitel.bazaar.util.toBase64
 
 internal class ReceiverStorageConnection(
     private val context: Context
@@ -57,12 +59,16 @@ internal class ReceiverStorageConnection(
     }
 
 
-    override fun savedData(owner: LifecycleOwner?, data: String, callback: BazaarStorageCallback) {
-        bazaarGetStorageCallback = callback
+    override fun savedData(
+        owner: LifecycleOwner?,
+        data: ByteArray,
+        callback: BazaarStorageCallback
+    ) {
+        bazaarSetStorageCallback = callback
         sendBroadcastForSaveData(owner, data)
     }
 
-    override fun savedDataSync(owner: LifecycleOwner?, data: String) {
+    override fun savedDataSync(owner: LifecycleOwner?, data: ByteArray) {
         sendBroadcastForSaveData(owner, data)
         setStorageLatch = AbortableCountDownLatch(1)
         setStorageLatch!!.await()
@@ -74,10 +80,10 @@ internal class ReceiverStorageConnection(
         context.sendBroadcast(intent)
     }
 
-    private fun sendBroadcastForSaveData(owner: LifecycleOwner?, data: String) {
+    private fun sendBroadcastForSaveData(owner: LifecycleOwner?, data: ByteArray) {
         listenOnIncomingBroadcastReceiver(owner)
         val bundle = Bundle().apply {
-            putString(KEY_PAYLOAD, data)
+            putString(KEY_PAYLOAD, data.toBase64())
         }
         val intent = getNewIntentForBroadcast(ACTION_STORAGE_SET_DATA, bundle)
         context.sendBroadcast(intent)
@@ -113,7 +119,8 @@ internal class ReceiverStorageConnection(
             null
         }
 
-        bazaarGetStorageCallback?.onDataReceived(savedData)
+        val payload = savedData?.fromBase64()
+        bazaarGetStorageCallback?.onDataReceived(payload)
         getStorageLatch?.let {
             appPayload = savedData
             it.countDown()
@@ -132,7 +139,8 @@ internal class ReceiverStorageConnection(
             null
         }
 
-        bazaarSetStorageCallback?.onDataReceived(savedData)
+        val payload = savedData?.fromBase64()
+        bazaarSetStorageCallback?.onDataReceived(payload)
         setStorageLatch?.countDown()
     }
 

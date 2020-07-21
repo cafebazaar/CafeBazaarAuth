@@ -10,8 +10,8 @@ internal abstract class StorageConnection(private val context: Context) {
     abstract fun getSavedData(owner: LifecycleOwner?, callback: BazaarStorageCallback)
     abstract fun getSavedDataSync(owner: LifecycleOwner?): String?
 
-    abstract fun savedData(owner: LifecycleOwner?, data: String, callback: BazaarStorageCallback)
-    abstract fun savedDataSync(owner: LifecycleOwner?, data: String)
+    abstract fun savedData(owner: LifecycleOwner?, data: ByteArray, callback: BazaarStorageCallback)
+    abstract fun savedDataSync(owner: LifecycleOwner?, data: ByteArray)
 
     companion object {
         const val PACKAGE_NAME_KEY = "packageName"
