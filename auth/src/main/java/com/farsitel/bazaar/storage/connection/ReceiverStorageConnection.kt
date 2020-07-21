@@ -88,7 +88,6 @@ internal class ReceiverStorageConnection(
         context.sendBroadcast(intent)
     }
 
-
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
         if (owner == null) {
             StorageReceiver.storageReceiveObservable.observeForever(observer)

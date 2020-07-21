@@ -50,6 +50,4 @@ object BazaarStorage {
 
         StorageConnection.getStorageConnection(context).savedDataSync(owner, data)
     }
-
-
 }
