@@ -21,7 +21,22 @@ internal class ReceiverStorageConnection(
     private var getStorageLatch: AbortableCountDownLatch? = null
     private var setStorageLatch: AbortableCountDownLatch? = null
 
-    private var bazaarStorage: String? = null
+    private var appPayload: String? = null
+
+    private val observer = Observer<Intent> { intent ->
+        when (intent.action) {
+            ACTION_STORAGE_GET_DATA_RESPONSE -> {
+                handleGetSavedDataResponse(intent.extras)
+            }
+            ACTION_STORAGE_SET_DATA_RESPONSE -> {
+                handleSetDataResponse(intent.extras)
+            }
+            ACTION_STORAGE_SET_DATA,
+            ACTION_STORAGE_GET_DATA -> {
+                context.sendBroadcast(intent)
+            }
+        }
+    }
 
     override fun getSavedData(owner: LifecycleOwner?, callback: BazaarStorageCallback) {
         bazaarGetStorageCallback = callback
@@ -32,7 +47,7 @@ internal class ReceiverStorageConnection(
         sendBroadcastForGetSavedData(owner)
         getStorageLatch = AbortableCountDownLatch(1)
         getStorageLatch!!.await()
-        return bazaarStorage
+        return appPayload
     }
 
 
@@ -61,21 +76,6 @@ internal class ReceiverStorageConnection(
 
 
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
-        val observer = Observer<Intent> { intent ->
-            when (intent.action) {
-                ACTION_STORAGE_GET_DATA_RESPONSE -> {
-                    handleGetSavedDataResponse(intent.extras)
-                }
-                ACTION_STORAGE_SET_DATA_RESPONSE -> {
-                    handleSetDataResponse(intent.extras)
-                }
-                ACTION_STORAGE_SET_DATA,
-                ACTION_STORAGE_GET_DATA -> {
-                    context.sendBroadcast(intent)
-                }
-            }
-        }
-
         if (owner == null) {
             StorageReceiver.storageReceiveObservable.observeForever(observer)
         } else {
@@ -106,7 +106,7 @@ internal class ReceiverStorageConnection(
 
         bazaarGetStorageCallback?.onDataReceived(savedData)
         getStorageLatch?.let {
-            bazaarStorage = savedData
+            appPayload = savedData
             it.countDown()
         }
     }

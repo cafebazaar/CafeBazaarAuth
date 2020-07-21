@@ -21,6 +21,13 @@ internal class ReceiverAuthConnection(
     private var getAccountIdLatch: AbortableCountDownLatch? = null
     private var bazaarSignInAccount: BazaarSignInAccount? = null
 
+    private val observer = Observer<Intent> { intent ->
+        when (intent.action) {
+            GET_LAST_ACCOUNT_ACTION_RESPONSE -> {
+                handleGetLastAccountResponse(intent.extras)
+            }
+        }
+    }
     override fun getLastAccountId(
         owner: LifecycleOwner?,
         callback: BazaarSignInCallback
@@ -49,14 +56,6 @@ internal class ReceiverAuthConnection(
     }
 
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
-        val observer = Observer<Intent> { intent ->
-            when (intent.action) {
-                GET_LAST_ACCOUNT_ACTION_RESPONSE -> {
-                    handleGetLastAccountResponse(intent.extras)
-                }
-            }
-        }
-
         if (owner == null) {
             AuthReceiver.authReceiveObservable.observeForever(observer)
         } else {
