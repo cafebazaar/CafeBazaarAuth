@@ -58,7 +58,6 @@ internal class ReceiverStorageConnection(
         return appPayload
     }
 
-
     override fun savedData(
         owner: LifecycleOwner?,
         data: ByteArray,
