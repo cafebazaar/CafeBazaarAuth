@@ -98,9 +98,7 @@ class BazaarInstallerActivity : AppCompatActivity() {
         ) {
             Intent(context, BazaarInstallerActivity::class.java).apply {
                 putExtra(INSTALLER_TYPE, installerType.ordinal)
-                putExtra(APPLICATION_NAME,
-                    getAppName(context)
-                )
+                putExtra(APPLICATION_NAME, getAppName(context))
             }.also {
                 context.safeStartActivity(it)
             }

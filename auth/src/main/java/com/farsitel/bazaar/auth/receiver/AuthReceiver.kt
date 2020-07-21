@@ -9,8 +9,7 @@ import com.farsitel.bazaar.util.SingleLiveEvent
 class AuthReceiver : BroadcastReceiver() {
 
     companion object {
-        private val _authReceiveObservable =
-            SingleLiveEvent<Intent>()
+        private val _authReceiveObservable = SingleLiveEvent<Intent>()
         val authReceiveObservable: LiveData<Intent> = _authReceiveObservable
     }
 
