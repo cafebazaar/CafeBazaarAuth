@@ -14,7 +14,7 @@ import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 import com.farsitel.bazaar.auth.model.SignInOption
 import com.farsitel.bazaar.storage.BazaarStorage
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
-import com.farsitel.bazaar.util.toReadableString
+import com.farsitel.bazaar.util.ext.toReadableString
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

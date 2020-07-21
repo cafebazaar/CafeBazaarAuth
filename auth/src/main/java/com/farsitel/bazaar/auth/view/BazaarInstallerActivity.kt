@@ -9,7 +9,7 @@ import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.auth.R
 import com.farsitel.bazaar.auth.model.InstallerType
 import com.farsitel.bazaar.util.getAppName
-import com.farsitel.bazaar.util.safeStartActivity
+import com.farsitel.bazaar.util.ext.safeStartActivity
 import kotlinx.android.synthetic.main.cafe_installer_view.*
 import kotlinx.android.synthetic.main.cafe_update_view.*
 

@@ -11,7 +11,7 @@ import com.farsitel.bazaar.storage.receiver.StorageReceiver
 import com.farsitel.bazaar.util.AbortableCountDownLatch
 import com.farsitel.bazaar.util.InAppLoginLogger
 import com.farsitel.bazaar.util.fromBase64
-import com.farsitel.bazaar.util.toBase64
+import com.farsitel.bazaar.util.ext.toBase64
 
 internal class ReceiverStorageConnection(
     private val context: Context
