@@ -32,8 +32,14 @@ internal class ReceiverStorageConnection(
                 handleSetDataResponse(intent.extras)
             }
             ACTION_STORAGE_SET_DATA,
-            ACTION_STORAGE_GET_DATA -> {
-                context.sendBroadcast(intent)
+            ACTION_STORAGE_GET_DATA
+            -> {
+                context.sendBroadcast(
+                    getNewIntentForBroadcast(
+                        requireNotNull(intent.action),
+                        intent.extras
+                    )
+                )
             }
         }
     }
@@ -53,11 +59,11 @@ internal class ReceiverStorageConnection(
 
     override fun savedData(owner: LifecycleOwner?, data: String, callback: BazaarStorageCallback) {
         bazaarGetStorageCallback = callback
-        sendBroadcastForSaveData(owner)
+        sendBroadcastForSaveData(owner, data)
     }
 
     override fun savedDataSync(owner: LifecycleOwner?, data: String) {
-        sendBroadcastForSaveData(owner)
+        sendBroadcastForSaveData(owner, data)
         setStorageLatch = AbortableCountDownLatch(1)
         setStorageLatch!!.await()
     }
@@ -68,9 +74,12 @@ internal class ReceiverStorageConnection(
         context.sendBroadcast(intent)
     }
 
-    private fun sendBroadcastForSaveData(owner: LifecycleOwner?) {
+    private fun sendBroadcastForSaveData(owner: LifecycleOwner?, data: String) {
         listenOnIncomingBroadcastReceiver(owner)
-        val intent = getNewIntentForBroadcast(ACTION_STORAGE_SET_DATA)
+        val bundle = Bundle().apply {
+            putString(KEY_PAYLOAD, data)
+        }
+        val intent = getNewIntentForBroadcast(ACTION_STORAGE_SET_DATA, bundle)
         context.sendBroadcast(intent)
     }
 
@@ -133,5 +142,7 @@ internal class ReceiverStorageConnection(
 
         private const val ACTION_STORAGE_SET_DATA = "$BAZAAR_PACKAGE_NAME.setInAppData"
         private const val ACTION_STORAGE_SET_DATA_RESPONSE = "$BAZAAR_PACKAGE_NAME.setInAppDataRes"
+
+        private const val KEY_PAYLOAD = "payload"
     }
 }
