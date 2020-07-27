@@ -35,7 +35,7 @@ object BazaarStorage {
         data: String,
         callback: BazaarStorageCallback
     ) {
-        StorageConnection.getStorageConnection(context).savedData(owner, data, callback)
+        StorageConnection.getStorageConnection(context).saveData(owner, data, callback)
     }
 
     @JvmStatic
@@ -48,7 +48,7 @@ object BazaarStorage {
             throw IllegalStateException("Can't call this method on UI thread.")
         }
 
-        StorageConnection.getStorageConnection(context).savedDataSync(owner, data)
+        StorageConnection.getStorageConnection(context).saveDataSync(owner, data)
     }
 
 

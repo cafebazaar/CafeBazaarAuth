@@ -36,12 +36,12 @@ internal class ReceiverStorageConnection(
     }
 
 
-    override fun savedData(owner: LifecycleOwner?, data: String, callback: BazaarStorageCallback) {
+    override fun saveData(owner: LifecycleOwner?, data: String, callback: BazaarStorageCallback) {
         bazaarGetStorageCallback = callback
         sendBroadcastForSaveData(owner)
     }
 
-    override fun savedDataSync(owner: LifecycleOwner?, data: String) {
+    override fun saveDataSync(owner: LifecycleOwner?, data: String) {
         sendBroadcastForSaveData(owner)
         setStorageLatch = AbortableCountDownLatch(1)
         setStorageLatch!!.await()
