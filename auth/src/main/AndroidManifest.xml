@@ -14,10 +14,10 @@
 
         <receiver android:name="com.farsitel.bazaar.storage.receiver.StorageReceiver">
             <intent-filter>
-                <action android:name="com.farsitel.bazaar.getSavedData" />
-                <action android:name="com.farsitel.bazaar.getSavedDataRes" />
-                <action android:name="com.farsitel.bazaar.setData" />
-                <action android:name="com.farsitel.bazaar.setDataRes" />
+                <action android:name="com.farsitel.bazaar.getInAppData" />
+                <action android:name="com.farsitel.bazaar.getInAppDataRes" />
+                <action android:name="com.farsitel.bazaar.setInAppData" />
+                <action android:name="com.farsitel.bazaar.setInAppDataRes" />
             </intent-filter>
         </receiver>
     </application>

@@ -9,7 +9,7 @@ import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.auth.R
 import com.farsitel.bazaar.auth.model.InstallerType
 import com.farsitel.bazaar.util.getAppName
-import com.farsitel.bazaar.util.safeStartActivity
+import com.farsitel.bazaar.util.ext.safeStartActivity
 import kotlinx.android.synthetic.main.cafe_installer_view.*
 import kotlinx.android.synthetic.main.cafe_update_view.*
 
@@ -98,9 +98,7 @@ class BazaarInstallerActivity : AppCompatActivity() {
         ) {
             Intent(context, BazaarInstallerActivity::class.java).apply {
                 putExtra(INSTALLER_TYPE, installerType.ordinal)
-                putExtra(APPLICATION_NAME,
-                    getAppName(context)
-                )
+                putExtra(APPLICATION_NAME, getAppName(context))
             }.also {
                 context.safeStartActivity(it)
             }

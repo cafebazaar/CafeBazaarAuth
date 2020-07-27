@@ -12,6 +12,9 @@ import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 import com.farsitel.bazaar.auth.model.SignInOption
+import com.farsitel.bazaar.storage.BazaarStorage
+import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
+import com.farsitel.bazaar.util.ext.toReadableString
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +44,27 @@ class MainActivity : AppCompatActivity() {
 
         installBazaar.setOnClickListener {
             BazaarClientProxy.showInstallBazaarView(context = this)
+        }
+
+        getData.setOnClickListener {
+            BazaarStorage.getSavedData(
+                context = this@MainActivity,
+                owner = this@MainActivity,
+                callback = BazaarStorageCallback {
+                    dataTV.text = it?.toReadableString()
+                }
+            )
+        }
+
+        setData.setOnClickListener {
+            BazaarStorage.saveData(
+                context = this@MainActivity,
+                owner = this@MainActivity,
+                data = dataET.text.toString().toByteArray(),
+                callback = BazaarStorageCallback {
+                    dataTV.text = it?.toReadableString()
+                }
+            )
         }
 
         accountId.text = "try to get last signedIn account"

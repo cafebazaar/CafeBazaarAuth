@@ -7,16 +7,19 @@
     android:background="#000"
     android:gravity="center"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <com.farsitel.bazaar.auth.widget.LoginButton
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             app:size="NORMAL" />
+
         <com.farsitel.bazaar.auth.widget.LoginButton
             android:id="@+id/loginButtonBig"
             android:layout_width="wrap_content"
@@ -24,15 +27,18 @@
             android:layout_margin="16dp"
             app:size="BIG" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/installBazaar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="install Bazaar" />
+
         <Button
             android:id="@+id/updateBazaar"
             android:layout_width="wrap_content"
@@ -40,11 +46,46 @@
             android:layout_margin="16dp"
             android:text="update Bazaar" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/accountId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
         android:layout_marginTop="@dimen/default_margin_double"
-        android:padding="@dimen/default_margin_double" />
+        android:padding="@dimen/default_margin_double"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/getData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="get data" />
+
+        <Button
+            android:id="@+id/setData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="setData" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dataTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin_double"
+        android:padding="@dimen/default_margin_double"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/dataET"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

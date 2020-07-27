@@ -32,7 +32,7 @@ object BazaarStorage {
     fun saveData(
         context: Context,
         owner: LifecycleOwner?,
-        data: String,
+        data: ByteArray,
         callback: BazaarStorageCallback
     ) {
         StorageConnection.getStorageConnection(context).saveData(owner, data, callback)
@@ -42,7 +42,7 @@ object BazaarStorage {
     fun saveDataSync(
         context: Context,
         owner: LifecycleOwner?,
-        data: String
+        data: ByteArray
     ) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             throw IllegalStateException("Can't call this method on UI thread.")
@@ -50,6 +50,4 @@ object BazaarStorage {
 
         StorageConnection.getStorageConnection(context).saveDataSync(owner, data)
     }
-
-
 }

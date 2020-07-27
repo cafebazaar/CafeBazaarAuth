@@ -10,6 +10,8 @@ import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 import com.farsitel.bazaar.storage.receiver.StorageReceiver
 import com.farsitel.bazaar.util.AbortableCountDownLatch
 import com.farsitel.bazaar.util.InAppLoginLogger
+import com.farsitel.bazaar.util.fromBase64
+import com.farsitel.bazaar.util.ext.toBase64
 
 internal class ReceiverStorageConnection(
     private val context: Context
@@ -21,7 +23,28 @@ internal class ReceiverStorageConnection(
     private var getStorageLatch: AbortableCountDownLatch? = null
     private var setStorageLatch: AbortableCountDownLatch? = null
 
-    private var bazaarStorage: String? = null
+    private var appPayload: String? = null
+
+    private val observer = Observer<Intent> { intent ->
+        when (intent.action) {
+            ACTION_STORAGE_GET_DATA_RESPONSE -> {
+                handleGetSavedDataResponse(intent.extras)
+            }
+            ACTION_STORAGE_SET_DATA_RESPONSE -> {
+                handleSetDataResponse(intent.extras)
+            }
+            ACTION_STORAGE_SET_DATA,
+            ACTION_STORAGE_GET_DATA
+            -> {
+                context.sendBroadcast(
+                    getNewIntentForBroadcast(
+                        requireNotNull(intent.action),
+                        intent.extras
+                    )
+                )
+            }
+        }
+    }
 
     override fun getSavedData(owner: LifecycleOwner?, callback: BazaarStorageCallback) {
         bazaarGetStorageCallback = callback
@@ -32,17 +55,20 @@ internal class ReceiverStorageConnection(
         sendBroadcastForGetSavedData(owner)
         getStorageLatch = AbortableCountDownLatch(1)
         getStorageLatch!!.await()
-        return bazaarStorage
+        return appPayload
     }
 
-
-    override fun saveData(owner: LifecycleOwner?, data: String, callback: BazaarStorageCallback) {
-        bazaarGetStorageCallback = callback
-        sendBroadcastForSaveData(owner)
+    override fun saveData(
+        owner: LifecycleOwner?,
+        data: ByteArray,
+        callback: BazaarStorageCallback
+    ) {
+        bazaarSetStorageCallback = callback
+        sendBroadcastForSaveData(owner, data)
     }
 
-    override fun saveDataSync(owner: LifecycleOwner?, data: String) {
-        sendBroadcastForSaveData(owner)
+    override fun saveDataSync(owner: LifecycleOwner?, data: ByteArray) {
+        sendBroadcastForSaveData(owner, data)
         setStorageLatch = AbortableCountDownLatch(1)
         setStorageLatch!!.await()
     }
@@ -53,29 +79,16 @@ internal class ReceiverStorageConnection(
         context.sendBroadcast(intent)
     }
 
-    private fun sendBroadcastForSaveData(owner: LifecycleOwner?) {
+    private fun sendBroadcastForSaveData(owner: LifecycleOwner?, data: ByteArray) {
         listenOnIncomingBroadcastReceiver(owner)
-        val intent = getNewIntentForBroadcast(ACTION_STORAGE_SET_DATA)
+        val bundle = Bundle().apply {
+            putString(KEY_PAYLOAD, data.toBase64())
+        }
+        val intent = getNewIntentForBroadcast(ACTION_STORAGE_SET_DATA, bundle)
         context.sendBroadcast(intent)
     }
 
-
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
-        val observer = Observer<Intent> { intent ->
-            when (intent.action) {
-                ACTION_STORAGE_GET_DATA_RESPONSE -> {
-                    handleGetSavedDataResponse(intent.extras)
-                }
-                ACTION_STORAGE_SET_DATA_RESPONSE -> {
-                    handleSetDataResponse(intent.extras)
-                }
-                ACTION_STORAGE_SET_DATA,
-                ACTION_STORAGE_GET_DATA -> {
-                    context.sendBroadcast(intent)
-                }
-            }
-        }
-
         if (owner == null) {
             StorageReceiver.storageReceiveObservable.observeForever(observer)
         } else {
@@ -104,9 +117,10 @@ internal class ReceiverStorageConnection(
             null
         }
 
-        bazaarGetStorageCallback?.onDataReceived(savedData)
+        val payload = savedData?.fromBase64()
+        bazaarGetStorageCallback?.onDataReceived(payload)
         getStorageLatch?.let {
-            bazaarStorage = savedData
+            appPayload = savedData
             it.countDown()
         }
     }
@@ -123,7 +137,8 @@ internal class ReceiverStorageConnection(
             null
         }
 
-        bazaarSetStorageCallback?.onDataReceived(savedData)
+        val payload = savedData?.fromBase64()
+        bazaarSetStorageCallback?.onDataReceived(payload)
         setStorageLatch?.countDown()
     }
 
@@ -133,5 +148,7 @@ internal class ReceiverStorageConnection(
 
         private const val ACTION_STORAGE_SET_DATA = "$BAZAAR_PACKAGE_NAME.setInAppData"
         private const val ACTION_STORAGE_SET_DATA_RESPONSE = "$BAZAAR_PACKAGE_NAME.setInAppDataRes"
+
+        private const val KEY_PAYLOAD = "payload"
     }
 }
