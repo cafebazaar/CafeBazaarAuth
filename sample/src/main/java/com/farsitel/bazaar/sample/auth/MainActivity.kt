@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
         if (!BazaarClientProxy.isBazaarInstalledOnDevice(this)) {
             BazaarClientProxy.showInstallBazaarView(this)
-        } else if (BazaarClientProxy.isNeededToUpdateBazaar(this)) {
+        } else if (BazaarClientProxy.isNeededToUpdateBazaar(this).needToUpdateForStorage) {
             BazaarClientProxy.showUpdateBazaarView(this)
         }
     }

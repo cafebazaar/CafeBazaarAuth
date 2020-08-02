@@ -9,14 +9,17 @@ import com.farsitel.bazaar.util.versionCodeSDKAware
 object BazaarClientProxy {
 
     private const val BAZAAR_WITH_AUTH_VERSION = 801500
+    private const val BAZAAR_WITH_STORAGE_VERSION = 801703
 
     fun isBazaarInstalledOnDevice(context: Context): Boolean {
         return getPackageInfo(context, BAZAAR_PACKAGE_NAME) != null &&
                 Security.verifyBazaarIsInstalled(context)
     }
 
-    fun isNeededToUpdateBazaar(context: Context): Boolean {
-        return getBazaarVersion(context) >= BAZAAR_WITH_AUTH_VERSION
+    fun isNeededToUpdateBazaar(context: Context): BazaarUpdateInfo {
+        val needToUpdateForAuth = getBazaarVersion(context) < BAZAAR_WITH_AUTH_VERSION
+        val needToUpdateForStorage = getBazaarVersion(context) < BAZAAR_WITH_STORAGE_VERSION
+        return BazaarUpdateInfo(needToUpdateForAuth, needToUpdateForStorage)
     }
 
     fun showInstallBazaarView(context: Context) {
