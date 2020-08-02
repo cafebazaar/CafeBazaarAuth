@@ -71,9 +71,9 @@ class MainActivity : AppCompatActivity() {
         BazaarSignIn.getLastSignedInAccount(
             context = this,
             owner = this,
-            callback = BazaarSignInCallback { account ->
+            callback = BazaarSignInCallback { response ->
                 accountId.text = "Account is fetched"
-                updateUI(account)
+                updateUI(response?.data)
             })
 
         if (!BazaarClientProxy.isBazaarInstalledOnDevice(this)) {

@@ -2,13 +2,14 @@ package com.farsitel.bazaar.auth.connection
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
+import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 
 internal abstract class AuthConnection(private val context: Context) {
 
     abstract fun getLastAccountId(owner: LifecycleOwner?, callback: BazaarSignInCallback)
-    abstract fun getLastAccountIdSync(owner: LifecycleOwner?): BazaarSignInAccount?
+    abstract fun getLastAccountIdSync(owner: LifecycleOwner?): BazaarResponse<BazaarSignInAccount>?
 
     companion object {
         const val PACKAGE_NAME_KEY = "packageName"
