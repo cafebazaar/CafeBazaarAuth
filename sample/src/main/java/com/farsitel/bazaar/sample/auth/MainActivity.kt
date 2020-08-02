@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 context = this@MainActivity,
                 owner = this@MainActivity,
                 callback = BazaarStorageCallback {
-                    dataTV.text = it?.toReadableString()
+                    dataTV.text = it?.data?.toReadableString()
                 }
             )
         }
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 owner = this@MainActivity,
                 data = dataET.text.toString().toByteArray(),
                 callback = BazaarStorageCallback {
-                    dataTV.text = it?.toReadableString()
+                    dataTV.text = it?.data?.toReadableString()
                 }
             )
         }
