@@ -3,6 +3,7 @@ package com.farsitel.bazaar.storage
 import android.content.Context
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
+import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 import com.farsitel.bazaar.storage.connection.StorageConnection
 
@@ -21,7 +22,7 @@ object BazaarStorage {
     fun getSavedDataSync(
         context: Context,
         owner: LifecycleOwner?
-    ): String? {
+    ): BazaarResponse<ByteArray>? {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             throw IllegalStateException("Can't call this method on UI thread.")
         }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
+import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.connection.AuthConnection.Companion.getAuthConnection
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
@@ -25,7 +26,7 @@ object BazaarSignIn {
     fun getLastSignedInAccountSync(
         context: Context,
         owner: LifecycleOwner?
-    ): BazaarSignInAccount? {
+    ): BazaarResponse<BazaarSignInAccount>? {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             throw IllegalStateException("Can't call this method on UI thread.")
         }
