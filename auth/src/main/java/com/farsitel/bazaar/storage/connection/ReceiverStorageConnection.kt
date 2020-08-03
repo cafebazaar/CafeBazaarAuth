@@ -116,7 +116,7 @@ internal class ReceiverStorageConnection(
 
             BazaarResponse(isSuccessful = true, data = payload)
         } else {
-            val errorResponse = StorageResponseHandler.getErrorMessage(extras)
+            val errorResponse = StorageResponseHandler.getErrorResponse(extras)
             InAppLoginLogger.logError(errorResponse?.errorMessage)
 
             BazaarResponse(isSuccessful = true, errorResponse = errorResponse)
@@ -141,7 +141,7 @@ internal class ReceiverStorageConnection(
 
             BazaarResponse(isSuccessful = true, data = payload)
         } else {
-            val errorResponse = StorageResponseHandler.getErrorMessage(extras)
+            val errorResponse = StorageResponseHandler.getErrorResponse(extras)
             InAppLoginLogger.logError(errorResponse?.errorMessage)
 
             BazaarResponse(isSuccessful = true, errorResponse = errorResponse)

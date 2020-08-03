@@ -20,7 +20,7 @@ object StorageResponseHandler {
         return extras.getInt(KEY_IAL_STATUE) == IAL_STATUE_SUCCESS
     }
 
-    fun getErrorMessage(extras: Bundle): ErrorResponse? {
+    fun getErrorResponse(extras: Bundle): ErrorResponse? {
         val errorCode = extras.getInt(KEY_IAL_STATUE)
         val message = when (errorCode) {
             IAL_STATUE_FAILED,
