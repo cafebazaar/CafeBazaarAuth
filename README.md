@@ -17,6 +17,8 @@ dependencies {
 
 # How to use
 
+## In-app login
+
 To login the user, you'll need to create a `BazaarSignIn` object:
 
 ```
@@ -71,6 +73,35 @@ To display Bazaar login button in your application, you can use the following Vi
 ```
 
 The `size` value in this widget can be `BIG` or ` NORMAL` which sets the button view size.
+
+## In-app storage
+
+To save the user data, you'll need to call the following method:
+
+```
+ BazaarStorage.saveData(
+                context = this@MainActivity,
+                owner = this@MainActivity,
+                data = "saved data".toByteArray(),
+                callback = BazaarStorageCallback { savedResponse ->
+                    dataTV.text = savedResponse?.data?.toReadableString()
+                }
+            )
+``` 
+
+To convert ByteArray response into string you can use `toReadableString` extension function.
+
+To get saved data,  you'll need to call the following method:
+
+```
+BazaarStorage.getSavedData(
+                context = this@MainActivity,
+                owner = this@MainActivity,
+                callback = BazaarStorageCallback { response ->
+                    dataTV.text = response?.data?.toReadableString()
+                }
+            )
+```
 
 # Security notes
 
