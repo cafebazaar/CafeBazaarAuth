@@ -46,7 +46,8 @@ In case the user has granted the login access, the returned `account` is not nul
 In case the user has already granted the access, use the following method to get the latest data:
 
 ```
-BazaarSignIn.getLastSignedInAccount(this, this,BazaarSingInCallback { account ->
+BazaarSignIn.getLastSignedInAccount(this, this,BazaarSingInCallback { response ->
+        val account = response?.data
         updateUI(account)
  })
 ```
@@ -55,7 +56,7 @@ In case the user has not granted the login access, the `account` value is null.
 
 To receive the information by sync method, you can use the following method:
 ```
-val account = BazaarSignIn.getLastSignedInAccountSync(this, this)
+val accountResponse = BazaarSignIn.getLastSignedInAccountSync(this, this)
 ```
 **Caution:** You are not able to call the above method on the Main thread.
 
@@ -81,7 +82,7 @@ BazaarClientProxy.isBazaarInstalledOnDevice(context)
 
 # Bazaar in client device
 
-To ensure that the Bazaar app version on the user device supports Bazaar login, use the following method:
+To ensure that the Bazaar app version on the user device supports Bazaar login and in-app storage, use the following method:
 
 ```
 BazaarClientProxy.isNeededToUpdateBazaar(context)
