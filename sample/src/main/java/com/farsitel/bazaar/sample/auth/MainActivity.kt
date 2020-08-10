@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.farsitel.bazaar.auth.BazaarClientProxy
+import com.farsitel.bazaar.BazaarClientProxy
 import com.farsitel.bazaar.auth.BazaarSignIn
 import com.farsitel.bazaar.auth.BazaarSignInClient
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 import com.farsitel.bazaar.auth.model.SignInOption
+import com.farsitel.bazaar.storage.BazaarStorage
+import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
+import com.farsitel.bazaar.util.ext.toReadableString
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -43,18 +46,39 @@ class MainActivity : AppCompatActivity() {
             BazaarClientProxy.showInstallBazaarView(context = this)
         }
 
+        getData.setOnClickListener {
+            BazaarStorage.getSavedData(
+                context = this@MainActivity,
+                owner = this@MainActivity,
+                callback = BazaarStorageCallback {
+                    dataTV.text = it?.data?.toReadableString()
+                }
+            )
+        }
+
+        setData.setOnClickListener {
+            BazaarStorage.saveData(
+                context = this@MainActivity,
+                owner = this@MainActivity,
+                data = dataET.text.toString().toByteArray(),
+                callback = BazaarStorageCallback {
+                    dataTV.text = it?.data?.toReadableString()
+                }
+            )
+        }
+
         accountId.text = "try to get last signedIn account"
         BazaarSignIn.getLastSignedInAccount(
             context = this,
             owner = this,
-            callback = BazaarSignInCallback { account ->
+            callback = BazaarSignInCallback { response ->
                 accountId.text = "Account is fetched"
-                updateUI(account)
+                updateUI(response?.data)
             })
 
         if (!BazaarClientProxy.isBazaarInstalledOnDevice(this)) {
             BazaarClientProxy.showInstallBazaarView(this)
-        } else if (BazaarClientProxy.isNeededToUpdateBazaar(this)) {
+        } else if (BazaarClientProxy.isNeededToUpdateBazaar(this).needToUpdateForStorage) {
             BazaarClientProxy.showUpdateBazaarView(this)
         }
     }

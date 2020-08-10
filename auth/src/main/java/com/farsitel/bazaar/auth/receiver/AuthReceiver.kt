@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
-import com.farsitel.bazaar.auth.util.SingleLiveEvent
+import com.farsitel.bazaar.util.SingleLiveEvent
 
 class AuthReceiver : BroadcastReceiver() {
 

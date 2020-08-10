@@ -1,4 +1,4 @@
-package com.farsitel.bazaar.auth.util
+package com.farsitel.bazaar.util
 
 import android.util.Log
 import androidx.annotation.MainThread

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
-import com.farsitel.bazaar.auth.BAZAAR_PACKAGE_NAME
+import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.security.PublicKey
