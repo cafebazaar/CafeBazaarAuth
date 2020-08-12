@@ -26,6 +26,9 @@ internal class ReceiverStorageConnection(
 
     private var bazaarResponse: BazaarResponse<ByteArray>? = null
 
+    private var sendSetDataBroadcast = false
+    private var sendGetDataBroadcast = false
+
     private val observer = Observer<Intent> { intent ->
         when (intent.action) {
             ACTION_STORAGE_GET_DATA_RESPONSE -> {
@@ -34,14 +37,27 @@ internal class ReceiverStorageConnection(
             ACTION_STORAGE_SET_DATA_RESPONSE -> {
                 handleSetDataResponse(intent.extras)
             }
-            ACTION_STORAGE_SET_DATA,
-            ACTION_STORAGE_GET_DATA -> {
-                context.sendBroadcast(
-                    getNewIntentForBroadcast(
-                        requireNotNull(intent.action),
-                        intent.extras
+            ACTION_STORAGE_SET_DATA -> {
+                if (sendSetDataBroadcast) {
+                    sendSetDataBroadcast = false
+                    context.sendBroadcast(
+                        getNewIntentForBroadcast(
+                            requireNotNull(intent.action),
+                            intent.extras
+                        )
                     )
-                )
+                }
+            }
+            ACTION_STORAGE_GET_DATA -> {
+                if (sendGetDataBroadcast) {
+                    sendGetDataBroadcast = false
+                    context.sendBroadcast(
+                        getNewIntentForBroadcast(
+                            requireNotNull(intent.action),
+                            intent.extras
+                        )
+                    )
+                }
             }
         }
     }
@@ -77,6 +93,7 @@ internal class ReceiverStorageConnection(
         listenOnIncomingBroadcastReceiver(owner)
         val intent = getNewIntentForBroadcast(ACTION_STORAGE_GET_DATA)
         context.sendBroadcast(intent)
+        sendGetDataBroadcast = true
     }
 
     private fun sendBroadcastForSaveData(owner: LifecycleOwner?, data: ByteArray) {
@@ -86,6 +103,7 @@ internal class ReceiverStorageConnection(
         }
         val intent = getNewIntentForBroadcast(ACTION_STORAGE_SET_DATA, bundle)
         context.sendBroadcast(intent)
+        sendSetDataBroadcast = true
     }
 
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
