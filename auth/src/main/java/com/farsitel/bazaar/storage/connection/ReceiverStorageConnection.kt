@@ -140,7 +140,6 @@ internal class ReceiverStorageConnection(
             BazaarResponse(isSuccessful = true, errorResponse = errorResponse)
         }
 
-
         bazaarGetStorageCallback?.onDataReceived(bazaarResponse)
         getStorageLatch?.let {
             this@ReceiverStorageConnection.bazaarResponse = bazaarResponse
