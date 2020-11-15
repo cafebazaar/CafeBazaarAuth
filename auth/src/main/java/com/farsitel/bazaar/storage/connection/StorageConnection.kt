@@ -5,7 +5,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 
-
 internal abstract class StorageConnection(private val context: Context) {
 
     abstract fun getSavedData(owner: LifecycleOwner?, callback: BazaarStorageCallback)
