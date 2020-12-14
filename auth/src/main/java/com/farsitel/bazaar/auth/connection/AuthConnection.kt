@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
+import com.farsitel.bazaar.thread.MainThread
 
 internal abstract class AuthConnection(private val context: Context) {
 
@@ -21,7 +22,7 @@ internal abstract class AuthConnection(private val context: Context) {
             if (!::authConnection.isInitialized) {
                 synchronized(lockObject) {
                     if (!::authConnection.isInitialized) {
-                        authConnection = ReceiverAuthConnection(context)
+                        authConnection = ReceiverAuthConnection(context, MainThread())
                     }
                 }
             }
