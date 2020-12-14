@@ -2,7 +2,7 @@ package com.farsitel.bazaar.thread
 
 import android.os.Looper
 
-object ThreadHelper {
+internal object ThreadHelper {
 
     fun changeToMainThreadIfNeeded(mainThread: MainThread, task: () -> Unit) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
