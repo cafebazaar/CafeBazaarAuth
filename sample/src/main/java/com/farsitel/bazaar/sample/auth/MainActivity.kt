@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         checkUserAlreadySignedIn()
+        checkInBackThread()
 
         loginButton = findViewById(R.id.loginButton)
     }
@@ -81,6 +82,20 @@ class MainActivity : AppCompatActivity() {
         } else if (BazaarClientProxy.isNeededToUpdateBazaar(this).needToUpdateForStorage) {
             BazaarClientProxy.showUpdateBazaarView(this)
         }
+    }
+
+    private fun checkInBackThread() {
+
+        Thread {
+            val response = BazaarSignIn.getLastSignedInAccountSync(
+                context = this,
+                owner = this
+            )
+
+            if (response?.isSuccessful == true) {
+                println("Use already login ${response.data?.accountId}")
+            }
+        }.start()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
