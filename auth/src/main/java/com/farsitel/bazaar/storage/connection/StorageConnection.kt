@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
+import com.farsitel.bazaar.thread.MainThread
 
 internal abstract class StorageConnection(private val context: Context) {
 
@@ -23,7 +24,7 @@ internal abstract class StorageConnection(private val context: Context) {
             if (!::storageConnection.isInitialized) {
                 synchronized(lockObject) {
                     if (!::storageConnection.isInitialized) {
-                        storageConnection = ReceiverStorageConnection(context)
+                        storageConnection = ReceiverStorageConnection(context, MainThread())
                     }
                 }
             }

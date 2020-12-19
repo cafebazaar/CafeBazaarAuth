@@ -9,13 +9,16 @@ import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 import com.farsitel.bazaar.storage.receiver.StorageReceiver
+import com.farsitel.bazaar.thread.MainThread
+import com.farsitel.bazaar.thread.ThreadHelper
 import com.farsitel.bazaar.util.AbortableCountDownLatch
 import com.farsitel.bazaar.util.InAppLoginLogger
 import com.farsitel.bazaar.util.ext.toBase64
 import com.farsitel.bazaar.util.fromBase64
 
 internal class ReceiverStorageConnection(
-    private val context: Context
+    private val context: Context,
+    private val mainThread: MainThread
 ) : StorageConnection(context) {
 
     private var bazaarSetStorageCallback: BazaarStorageCallback? = null
@@ -107,11 +110,15 @@ internal class ReceiverStorageConnection(
     }
 
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
-        if (owner == null) {
-            StorageReceiver.storageReceiveObservable.observeForever(observer)
-        } else {
-            StorageReceiver.storageReceiveObservable.observe(owner, observer)
+        val task = {
+            if (owner == null) {
+                StorageReceiver.storageReceiveObservable.observeForever(observer)
+            } else {
+                StorageReceiver.storageReceiveObservable.observe(owner, observer)
+            }
         }
+
+        ThreadHelper.changeToMainThreadIfNeeded(mainThread, task)
     }
 
     private fun getNewIntentForBroadcast(action: String, bundle: Bundle? = null) = Intent().apply {
