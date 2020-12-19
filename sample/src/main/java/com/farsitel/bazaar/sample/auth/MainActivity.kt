@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             if (response?.isSuccessful == true) {
-                println("Use already logged in ${response.data?.accountId}")
+                println("User already logged in")
             }
         }.start()
     }
