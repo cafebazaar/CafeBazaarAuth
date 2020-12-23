@@ -2,7 +2,7 @@
 <resources>
 
     <declare-styleable name="LoginButton">
-        <attr name="size" format="enum">
+        <attr name="login_button_size" format="enum">
             <enum name="NORMAL" value="0" />
             <enum name="BIG" value="1" />
         </attr>

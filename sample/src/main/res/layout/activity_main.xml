@@ -18,14 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:size="NORMAL" />
+            app:login_button_size="NORMAL" />
 
         <com.farsitel.bazaar.auth.widget.LoginButton
             android:id="@+id/loginButtonBig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:size="BIG" />
+            app:login_button_size="BIG" />
     </LinearLayout>
 
     <LinearLayout
