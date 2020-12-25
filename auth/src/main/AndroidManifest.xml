@@ -21,4 +21,8 @@
             </intent-filter>
         </receiver>
     </application>
+
+    <queries>
+        <package android:name="com.farsitel.bazaar" />
+    </queries>
 </manifest>
