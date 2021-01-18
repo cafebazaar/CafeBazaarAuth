@@ -51,10 +51,6 @@ internal class ServiceAuthConnection(
         } ?: false
     }
 
-    companion object {
-        private const val AUTH_SERVICE_ACTION = ""
-    }
-
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
         authService = BazaarAuth.Stub.asInterface(service)
     }
@@ -63,5 +59,7 @@ internal class ServiceAuthConnection(
         authService = null
     }
 
-
+    companion object {
+        private const val AUTH_SERVICE_ACTION = ""
+    }
 }
