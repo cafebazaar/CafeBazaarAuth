@@ -21,11 +21,23 @@ internal abstract class AuthConnection(private val context: Context) {
             if (!::authConnection.isInitialized) {
                 synchronized(lockObject) {
                     if (!::authConnection.isInitialized) {
-                        authConnection = ReceiverAuthConnection(context)
+                        initializeAuthConnection(context)
+
                     }
                 }
             }
             return authConnection
+        }
+
+        private fun initializeAuthConnection(context: Context) {
+            val serviceConnection = ServiceAuthConnection(context)
+            val canConnectWithService = serviceConnection.connect()
+
+            authConnection = if (canConnectWithService) {
+                serviceConnection
+            } else {
+                ReceiverAuthConnection(context)
+            }
         }
     }
 }
