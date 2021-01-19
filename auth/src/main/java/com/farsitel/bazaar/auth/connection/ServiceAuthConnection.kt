@@ -7,7 +7,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
-import com.farsitel.bazaar.BazaarAuth
+import com.farsitel.bazaar.auth.BazaarAuth
 import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
