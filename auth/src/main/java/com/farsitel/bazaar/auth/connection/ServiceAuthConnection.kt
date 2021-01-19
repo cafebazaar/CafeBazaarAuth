@@ -8,7 +8,7 @@ import android.os.IBinder
 import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.BazaarResponse
-import com.farsitel.bazaar.auth.BazaarAuth
+import com.farsitel.bazaar.auth.BazaarAuthAIDL
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.util.AbortableCountDownLatch
@@ -17,7 +17,7 @@ internal class ServiceAuthConnection(
     private val context: Context
 ) : AuthConnection(context), ServiceConnection {
 
-    private var authService: BazaarAuth? = null
+    private var authService: BazaarAuthAIDL? = null
     private var connectionThreadSecure: AbortableCountDownLatch? = null
 
     override fun getLastAccountId(
@@ -66,14 +66,14 @@ internal class ServiceAuthConnection(
     }
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-        authService = BazaarAuth.Stub.asInterface(service)
+        authService = BazaarAuthAIDL.Stub.asInterface(service)
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
         authService = null
     }
 
-    private fun <T> withService(func: (BazaarAuth) -> T, onException: () -> T): T {
+    private fun <T> withService(func: (BazaarAuthAIDL) -> T, onException: () -> T): T {
         return try {
             if (authService == null) {
                 connect()
