@@ -7,8 +7,8 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
-import com.farsitel.bazaar.auth.BazaarAuth
 import com.farsitel.bazaar.BazaarResponse
+import com.farsitel.bazaar.auth.BazaarAuth
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.util.AbortableCountDownLatch
@@ -26,7 +26,7 @@ internal class ServiceAuthConnection(
     ) {
         withService(
             func = { connection ->
-                val bundle = connection.lastAccountId
+                val bundle = connection.getLastAccountId(context.packageName)
                 val response = getLastAccountResponse(bundle)
                 callback.onAccountReceived(response)
             }, onException = {
@@ -39,7 +39,7 @@ internal class ServiceAuthConnection(
     ): BazaarResponse<BazaarSignInAccount>? {
         val bundle = withService(
             func = { connection ->
-                connection.lastAccountId
+                connection.getLastAccountId(context.packageName)
             }, onException = {
                 null
             }
