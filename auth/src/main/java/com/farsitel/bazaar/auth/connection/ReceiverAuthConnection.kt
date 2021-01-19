@@ -11,7 +11,6 @@ import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.receiver.AuthReceiver
 import com.farsitel.bazaar.util.AbortableCountDownLatch
-import com.farsitel.bazaar.util.InAppLoginLogger
 
 internal class ReceiverAuthConnection(
     private val context: Context
@@ -68,19 +67,7 @@ internal class ReceiverAuthConnection(
     }
 
     private fun handleGetLastAccountResponse(extras: Bundle?) {
-        if (extras == null) {
-            return
-        }
-
-        val response = if (AuthResponseHandler.isSuccessful(extras)) {
-            val account = AuthResponseHandler.getAccountByBundle(extras)
-            BazaarResponse(isSuccessful = true, data = account)
-        } else {
-            val errorResponse = AuthResponseHandler.getErrorResponse(extras)
-            InAppLoginLogger.logError(errorResponse.errorMessage)
-            BazaarResponse(isSuccessful = false, errorResponse = errorResponse)
-        }
-
+        val response = getLastAccountResponse(extras)
         bazaarSignInCallback?.onAccountReceived(response)
         getAccountIdLatch?.let {
             bazaarSignInAccountResponse = response

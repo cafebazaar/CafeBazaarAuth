@@ -24,13 +24,27 @@ internal class ServiceAuthConnection(
         owner: LifecycleOwner?,
         callback: BazaarSignInCallback
     ) {
-        TODO("Not yet implemented")
+        withService(
+            func = { connection ->
+                val bundle = connection.lastAccountId
+                val response = getLastAccountResponse(bundle)
+                callback.onAccountReceived(response)
+            }, onException = {
+                callback.onAccountReceived(getLastAccountResponse(extras = null))
+            })
     }
 
     override fun getLastAccountIdSync(
         owner: LifecycleOwner?
     ): BazaarResponse<BazaarSignInAccount>? {
-        TODO("Not yet implemented")
+        val bundle = withService(
+            func = { connection ->
+                connection.lastAccountId
+            }, onException = {
+                null
+            }
+        )
+        return getLastAccountResponse(bundle)
     }
 
     fun connect(): Boolean {
@@ -57,6 +71,19 @@ internal class ServiceAuthConnection(
 
     override fun onServiceDisconnected(name: ComponentName?) {
         authService = null
+    }
+
+    private fun <T> withService(func: (BazaarAuth) -> T, onException: () -> T): T {
+        return try {
+            if (authService == null) {
+                connect()
+            }
+
+            connectionThreadSecure?.await()
+            func.invoke(requireNotNull(authService))
+        } catch (e: Exception) {
+            onException.invoke()
+        }
     }
 
     companion object {
