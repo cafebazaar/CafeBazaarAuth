@@ -79,6 +79,13 @@ internal class ServiceStorageConnection(
         )
     }
 
+    override fun disconnect(context: Context) {
+        context.unbindService(this)
+        storageService = null
+        connectionThreadSecure?.abort()
+
+    }
+
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
         storageService = BazaarStorageAIDL.Stub.asInterface(service)
     }

@@ -46,6 +46,13 @@ internal class ReceiverAuthConnection(
         return bazaarSignInAccountResponse
     }
 
+    override fun disconnect(context: Context) {
+        bazaarSignInCallback = null
+        bazaarSignInAccountResponse = null
+
+        getAccountIdLatch?.abort()
+    }
+
     private fun sendBroadcastForLastAccountId(owner: LifecycleOwner?) {
         listenOnIncomingBroadcastReceiver(owner)
         val intent = getNewIntentForBroadcast(GET_LAST_ACCOUNT_ACTION)

@@ -87,6 +87,14 @@ internal class ReceiverStorageConnection(
         setStorageLatch!!.await()
     }
 
+    override fun disconnect(context: Context) {
+        bazaarSetStorageCallback = null
+        bazaarGetStorageCallback = null
+
+        getStorageLatch?.abort()
+        setStorageLatch?.abort()
+    }
+
     private fun sendBroadcastForGetSavedData(owner: LifecycleOwner?) {
         listenOnIncomingBroadcastReceiver(owner)
         val intent = getNewIntentForBroadcast(ACTION_STORAGE_GET_DATA)

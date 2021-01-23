@@ -13,6 +13,8 @@ internal abstract class AuthConnection(private val context: Context) {
     abstract fun getLastAccountId(owner: LifecycleOwner?, callback: BazaarSignInCallback)
     abstract fun getLastAccountIdSync(owner: LifecycleOwner?): BazaarResponse<BazaarSignInAccount>?
 
+    abstract fun disconnect(context: Context)
+
     fun getLastAccountResponse(extras: Bundle?): BazaarResponse<BazaarSignInAccount> {
         return if (AuthResponseHandler.isSuccessful(extras)) {
             val account = AuthResponseHandler.getAccountByBundle(

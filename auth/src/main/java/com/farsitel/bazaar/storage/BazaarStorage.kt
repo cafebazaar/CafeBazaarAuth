@@ -51,4 +51,9 @@ object BazaarStorage {
 
         StorageConnection.getStorageConnection(context).saveDataSync(owner, data)
     }
+
+    @JvmStatic
+    fun disconnect(context: Context) {
+        StorageConnection.getStorageConnection(context).disconnect(context)
+    }
 }

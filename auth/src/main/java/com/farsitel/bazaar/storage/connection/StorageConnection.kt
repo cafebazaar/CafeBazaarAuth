@@ -16,6 +16,7 @@ internal abstract class StorageConnection(private val context: Context) {
     abstract fun saveData(owner: LifecycleOwner?, data: ByteArray, callback: BazaarStorageCallback)
     abstract fun saveDataSync(owner: LifecycleOwner?, data: ByteArray)
 
+    abstract fun disconnect(context: Context)
 
     fun getGetSavedDataResponse(extras: Bundle?): BazaarResponse<ByteArray> {
         return if (StorageResponseHandler.isSuccessful(extras)) {

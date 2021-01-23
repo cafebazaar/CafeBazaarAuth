@@ -105,6 +105,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        BazaarStorage.disconnect(this)
+        BazaarSignIn.disconnect(this)
+        super.onDestroy()
+    }
+
     companion object {
         private const val REQ_CODE = 123
     }

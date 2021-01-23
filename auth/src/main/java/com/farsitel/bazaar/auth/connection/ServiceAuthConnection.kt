@@ -47,6 +47,13 @@ internal class ServiceAuthConnection(
         return getLastAccountResponse(bundle)
     }
 
+    override fun disconnect(context: Context) {
+        context.unbindService(this)
+
+        authService = null
+        connectionThreadSecure?.abort()
+    }
+
     fun connect(): Boolean {
         return Intent(AUTH_SERVICE_ACTION).apply {
             `package` = BAZAAR_PACKAGE_NAME

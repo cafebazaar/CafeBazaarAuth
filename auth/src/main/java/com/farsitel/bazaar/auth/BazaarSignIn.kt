@@ -42,4 +42,9 @@ object BazaarSignIn {
     fun getSignedInAccountFromIntent(data: Intent?): BazaarSignInAccount? {
         return BazaarSignInResult.getAccountFromIntent(data)
     }
+
+    @JvmStatic
+    fun disconnect(context: Context) {
+        getAuthConnection(context).disconnect(context)
+    }
 }
