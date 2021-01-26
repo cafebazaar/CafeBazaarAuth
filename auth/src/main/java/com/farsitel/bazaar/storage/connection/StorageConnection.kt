@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
+import com.farsitel.bazaar.thread.BackgroundThread
+import com.farsitel.bazaar.thread.MainThread
 import com.farsitel.bazaar.util.InAppLoginLogger
 import com.farsitel.bazaar.util.fromBase64
 
@@ -16,7 +18,9 @@ internal abstract class StorageConnection(private val context: Context) {
     abstract fun saveData(owner: LifecycleOwner?, data: ByteArray, callback: BazaarStorageCallback)
     abstract fun saveDataSync(owner: LifecycleOwner?, data: ByteArray)
 
-    abstract fun disconnect(context: Context)
+    open fun disconnect(context: Context) {
+        storageConnection = null
+    }
 
     fun getGetSavedDataResponse(extras: Bundle?): BazaarResponse<ByteArray> {
         return if (StorageResponseHandler.isSuccessful(extras)) {
@@ -49,22 +53,26 @@ internal abstract class StorageConnection(private val context: Context) {
     companion object {
         const val PACKAGE_NAME_KEY = "packageName"
 
-        private lateinit var storageConnection: StorageConnection
+        private var storageConnection: StorageConnection? = null
         private val lockObject = Object()
 
         fun getStorageConnection(context: Context): StorageConnection {
-            if (!::storageConnection.isInitialized) {
+            if (storageConnection == null) {
                 synchronized(lockObject) {
-                    if (!::storageConnection.isInitialized) {
+                    if (storageConnection == null) {
                         initializeStorageConnection(context)
                     }
                 }
             }
-            return storageConnection
+            return requireNotNull(storageConnection)
         }
 
         private fun initializeStorageConnection(context: Context) {
-            val serviceConnection = ServiceStorageConnection(context)
+            val serviceConnection = ServiceStorageConnection(
+                context,
+                BackgroundThread(),
+                MainThread()
+            )
             val canConnectWithService = serviceConnection.connect()
 
             storageConnection = if (canConnectWithService) {
