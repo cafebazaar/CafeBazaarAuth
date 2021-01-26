@@ -9,7 +9,7 @@ import android.os.IBinder
 import androidx.lifecycle.LifecycleOwner
 import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.BazaarResponse
-import com.farsitel.bazaar.storage.BazaarStorageAIDL
+import com.farsitel.bazaar.storage.InAppBazaarStorage
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 import com.farsitel.bazaar.thread.BackgroundThread
 import com.farsitel.bazaar.thread.MainThread
@@ -22,7 +22,7 @@ internal class ServiceStorageConnection(
     private val mainThread: MainThread
 ) : StorageConnection(context), ServiceConnection {
 
-    private var storageService: BazaarStorageAIDL? = null
+    private var storageService: InAppBazaarStorage? = null
     private var connectionThreadSecure: AbortableCountDownLatch? = null
 
     fun connect(): Boolean {
@@ -71,7 +71,7 @@ internal class ServiceStorageConnection(
         return getGetSavedDataResponse(bundle)
     }
 
-    private fun getSavedData(connection: BazaarStorageAIDL): Bundle? {
+    private fun getSavedData(connection: InAppBazaarStorage): Bundle? {
         return connection.getSavedData(context.packageName)
     }
 
@@ -108,7 +108,7 @@ internal class ServiceStorageConnection(
         )
     }
 
-    private fun saveData(connection: BazaarStorageAIDL, data: ByteArray): Bundle? {
+    private fun saveData(connection: InAppBazaarStorage, data: ByteArray): Bundle? {
         return connection.saveData(context.packageName, data.toBase64())
     }
 
@@ -122,7 +122,7 @@ internal class ServiceStorageConnection(
     }
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-        storageService = BazaarStorageAIDL.Stub.asInterface(service)
+        storageService = InAppBazaarStorage.Stub.asInterface(service)
         connectionThreadSecure?.countDown()
     }
 
@@ -131,7 +131,7 @@ internal class ServiceStorageConnection(
     }
 
     private fun <T> withService(
-        func: (BazaarStorageAIDL) -> T,
+        func: (InAppBazaarStorage) -> T,
         onException: () -> T
     ): T {
         return try {
@@ -148,7 +148,7 @@ internal class ServiceStorageConnection(
     }
 
     private fun <T> withServiceInBackground(
-        func: (BazaarStorageAIDL) -> T,
+        func: (InAppBazaarStorage) -> T,
         onException: () -> T
     ) {
         val runnable = {

@@ -2,6 +2,6 @@ package com.farsitel.bazaar.auth;
 
 // Declare any non-default types here with import statements
 
-interface BazaarAuthAIDL {
+interface InAppBazaarAuth {
     Bundle getLastAccountId(String packageName);
 }
