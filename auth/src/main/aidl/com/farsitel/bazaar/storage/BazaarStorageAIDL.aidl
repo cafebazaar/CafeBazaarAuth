@@ -5,5 +5,5 @@ package com.farsitel.bazaar.storage;
 
 interface BazaarStorageAIDL {
     Bundle getSavedData(String packageName);
-    Bundle saveData(String packageName, in byte[] data);
+    Bundle saveData(String packageName, String data);
 }
