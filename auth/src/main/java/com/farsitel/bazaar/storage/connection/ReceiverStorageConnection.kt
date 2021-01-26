@@ -93,6 +93,7 @@ internal class ReceiverStorageConnection(
 
         getStorageLatch?.abort()
         setStorageLatch?.abort()
+        super.disconnect(context)
     }
 
     private fun sendBroadcastForGetSavedData(owner: LifecycleOwner?) {

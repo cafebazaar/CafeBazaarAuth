@@ -51,6 +51,7 @@ internal class ReceiverAuthConnection(
         bazaarSignInAccountResponse = null
 
         getAccountIdLatch?.abort()
+        super.disconnect(context)
     }
 
     private fun sendBroadcastForLastAccountId(owner: LifecycleOwner?) {
