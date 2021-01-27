@@ -32,7 +32,7 @@ internal abstract class StorageConnection(private val context: Context) {
             val errorResponse = StorageResponseHandler.getErrorResponse(extras)
             InAppLoginLogger.logError(errorResponse?.errorMessage)
 
-            BazaarResponse(isSuccessful = true, errorResponse = errorResponse)
+            BazaarResponse(isSuccessful = false, errorResponse = errorResponse)
         }
     }
 
@@ -46,7 +46,7 @@ internal abstract class StorageConnection(private val context: Context) {
             val errorResponse = StorageResponseHandler.getErrorResponse(extras)
             InAppLoginLogger.logError(errorResponse?.errorMessage)
 
-            BazaarResponse(isSuccessful = true, errorResponse = errorResponse)
+            BazaarResponse(isSuccessful = false, errorResponse = errorResponse)
         }
     }
 
