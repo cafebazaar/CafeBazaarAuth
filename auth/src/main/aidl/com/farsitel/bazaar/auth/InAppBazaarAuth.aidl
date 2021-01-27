@@ -1,7 +1,14 @@
 package com.farsitel.bazaar.auth;
 
-// Declare any non-default types here with import statements
-
+/**
+* This class used to communicate with the inAppBazaar library to get the account info of the user from Bazaar
+*/
 interface InAppBazaarAuth {
+    /**
+    *  @params: packageName of the thirdParty application
+    *  @Return: Bundle with the following data:
+            ID
+            STATUE
+    */
     Bundle getLastAccountId(String packageName);
 }
