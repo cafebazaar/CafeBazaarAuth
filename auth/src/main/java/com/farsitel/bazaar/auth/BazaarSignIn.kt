@@ -1,6 +1,5 @@
 package com.farsitel.bazaar.auth
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Looper
@@ -34,8 +33,8 @@ object BazaarSignIn {
     }
 
     @JvmStatic
-    fun getClient(activity: Activity, signInOption: BazaarSignInOptions): BazaarSignInClient {
-        return BazaarSignInClient(signInOption, activity)
+    fun getClient(context: Context, signInOption: BazaarSignInOptions): BazaarSignInClient {
+        return BazaarSignInClient(signInOption, context)
     }
 
     @JvmStatic

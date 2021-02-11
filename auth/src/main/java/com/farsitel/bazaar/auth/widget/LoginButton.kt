@@ -23,7 +23,7 @@ class LoginButton @JvmOverloads constructor(
 
         val viewSize = LoadingButtonSize.fromXml(
             attr.getInt(
-                R.styleable.LoginButton_size,
+                R.styleable.LoginButton_login_button_size,
                 LoadingButtonSize.NORMAL.ordinal
             )
         )

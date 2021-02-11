@@ -68,17 +68,18 @@ internal abstract class StorageConnection(private val context: Context) {
         }
 
         private fun initializeStorageConnection(context: Context) {
+            val mainThread = MainThread()
             val serviceConnection = ServiceStorageConnection(
                 context,
                 BackgroundThread(),
-                MainThread()
+                mainThread
             )
             val canConnectWithService = serviceConnection.connect()
 
             storageConnection = if (canConnectWithService) {
                 serviceConnection
             } else {
-                ReceiverStorageConnection(context)
+                ReceiverStorageConnection(context, mainThread)
             }
         }
     }
