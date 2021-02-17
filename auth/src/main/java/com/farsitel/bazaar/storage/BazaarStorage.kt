@@ -54,6 +54,6 @@ object BazaarStorage {
 
     @JvmStatic
     fun disconnect(context: Context) {
-        StorageConnection.getStorageConnection(context).disconnect(context)
+        StorageConnection.getStorageConnection(context).disconnect()
     }
 }
