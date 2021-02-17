@@ -13,7 +13,6 @@ import com.farsitel.bazaar.auth.receiver.AuthReceiver
 import com.farsitel.bazaar.thread.MainThread
 import com.farsitel.bazaar.thread.ThreadHelper.changeToMainThreadIfNeeded
 import com.farsitel.bazaar.util.AbortableCountDownLatch
-import com.farsitel.bazaar.util.InAppLoginLogger
 
 internal class ReceiverAuthConnection(
     private val context: Context,
@@ -50,6 +49,14 @@ internal class ReceiverAuthConnection(
         return bazaarSignInAccountResponse
     }
 
+    override fun disconnect() {
+        bazaarSignInCallback = null
+        bazaarSignInAccountResponse = null
+
+        getAccountIdLatch?.abort()
+        super.disconnect()
+    }
+
     private fun sendBroadcastForLastAccountId(owner: LifecycleOwner?) {
         listenOnIncomingBroadcastReceiver(owner)
         val intent = getNewIntentForBroadcast(GET_LAST_ACCOUNT_ACTION)
@@ -76,19 +83,7 @@ internal class ReceiverAuthConnection(
     }
 
     private fun handleGetLastAccountResponse(extras: Bundle?) {
-        if (extras == null) {
-            return
-        }
-
-        val response = if (AuthResponseHandler.isSuccessful(extras)) {
-            val account = AuthResponseHandler.getAccountByBundle(extras)
-            BazaarResponse(isSuccessful = true, data = account)
-        } else {
-            val errorResponse = AuthResponseHandler.getErrorResponse(extras)
-            InAppLoginLogger.logError(errorResponse.errorMessage)
-            BazaarResponse(isSuccessful = false, errorResponse = errorResponse)
-        }
-
+        val response = getLastAccountResponse(extras)
         bazaarSignInCallback?.onAccountReceived(response)
         getAccountIdLatch?.let {
             bazaarSignInAccountResponse = response
