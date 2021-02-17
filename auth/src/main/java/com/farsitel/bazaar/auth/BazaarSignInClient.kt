@@ -1,6 +1,6 @@
 package com.farsitel.bazaar.auth
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
@@ -9,18 +9,18 @@ import com.farsitel.bazaar.auth.model.BazaarSignInOptions
 
 class BazaarSignInClient internal constructor(
     private val signInOption: BazaarSignInOptions,
-    private val activity: Activity
+    private val context: Context
 ) {
 
     fun getSignInIntent(): Intent {
         return getSignInIntent(signInOption)
     }
 
-    private fun getSignInIntent(signInOption: BazaarSignInOptions) : Intent {
+    private fun getSignInIntent(signInOption: BazaarSignInOptions): Intent {
         return Intent(IAL_ACTION, Uri.parse(IAL_ACTION_URI))
             .apply {
                 setPackage(BAZAAR_PACKAGE_NAME)
-                putExtra(AuthConnection.PACKAGE_NAME_KEY, activity.packageName)
+                putExtra(AuthConnection.PACKAGE_NAME_KEY, context.packageName)
                 putExtra(
                     PERMISSION_SCOPE_KEY,
                     signInOption.getScopes().map { it.ordinal }.toIntArray()

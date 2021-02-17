@@ -10,10 +10,13 @@ import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.auth.receiver.AuthReceiver
+import com.farsitel.bazaar.thread.MainThread
+import com.farsitel.bazaar.thread.ThreadHelper.changeToMainThreadIfNeeded
 import com.farsitel.bazaar.util.AbortableCountDownLatch
 
 internal class ReceiverAuthConnection(
-    private val context: Context
+    private val context: Context,
+    private val mainThread: MainThread
 ) : AuthConnection(context) {
 
     private var bazaarSignInCallback: BazaarSignInCallback? = null
@@ -67,11 +70,16 @@ internal class ReceiverAuthConnection(
     }
 
     private fun listenOnIncomingBroadcastReceiver(owner: LifecycleOwner?) {
-        if (owner == null) {
-            AuthReceiver.authReceiveObservable.observeForever(observer)
-        } else {
-            AuthReceiver.authReceiveObservable.observe(owner, observer)
+
+        val task = {
+            if (owner == null) {
+                AuthReceiver.authReceiveObservable.observeForever(observer)
+            } else {
+                AuthReceiver.authReceiveObservable.observe(owner, observer)
+            }
         }
+
+        changeToMainThreadIfNeeded(mainThread, task)
     }
 
     private fun handleGetLastAccountResponse(extras: Bundle?) {

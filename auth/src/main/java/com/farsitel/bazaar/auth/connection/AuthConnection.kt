@@ -8,6 +8,7 @@ import com.farsitel.bazaar.auth.callback.BazaarSignInCallback
 import com.farsitel.bazaar.auth.model.BazaarSignInAccount
 import com.farsitel.bazaar.thread.BackgroundThread
 import com.farsitel.bazaar.util.InAppLoginLogger
+import com.farsitel.bazaar.thread.MainThread
 
 internal abstract class AuthConnection(private val context: Context) {
 
@@ -59,7 +60,7 @@ internal abstract class AuthConnection(private val context: Context) {
             authConnection = if (canConnectWithService) {
                 serviceConnection
             } else {
-                ReceiverAuthConnection(context)
+                ReceiverAuthConnection(context, MainThread())
             }
         }
     }
