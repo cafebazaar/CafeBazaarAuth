@@ -1,50 +1,36 @@
 package com.farsitel.bazaar.storage.connection
 
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import androidx.lifecycle.LifecycleOwner
-import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.BazaarResponse
+import com.farsitel.bazaar.service.ServiceHelper
 import com.farsitel.bazaar.storage.InAppBazaarStorage
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 import com.farsitel.bazaar.thread.BackgroundThread
 import com.farsitel.bazaar.thread.MainThread
-import com.farsitel.bazaar.util.AbortableCountDownLatch
 import com.farsitel.bazaar.util.ext.toBase64
 
 internal class ServiceStorageConnection(
     private val context: Context,
     private val backgroundThread: BackgroundThread,
     private val mainThread: MainThread
-) : StorageConnection(context), ServiceConnection {
+) : StorageConnection(context) {
 
-    private var storageService: InAppBazaarStorage? = null
-    private var connectionThreadSecure: AbortableCountDownLatch? = null
+    private val serviceHelper = ServiceHelper<InAppBazaarStorage>(
+        context,
+        backgroundThread,
+        STORAGE_SERVICE_ACTION
+    ) { binder ->
+        InAppBazaarStorage.Stub.asInterface(binder)
+    }
 
     fun connect(): Boolean {
-        return Intent(STORAGE_SERVICE_ACTION).apply {
-            `package` = BAZAAR_PACKAGE_NAME
-        }.takeIf {
-            context.packageManager.queryIntentServices(it, 0).isNullOrEmpty().not()
-        }?.let {
-            try {
-                val connect = context.bindService(it, this, Context.BIND_AUTO_CREATE)
-                if (connect) {
-                    connectionThreadSecure = AbortableCountDownLatch(1)
-                }
-                connect
-            } catch (e: SecurityException) {
-                false
-            }
-        } ?: false
+        return serviceHelper.connect()
     }
 
     override fun getSavedData(owner: LifecycleOwner?, callback: BazaarStorageCallback) {
-        withServiceInBackground(
+        serviceHelper.withServiceInBackground(
             func = {
                 val bundle = getSavedData(it)
                 runOnMainThread {
@@ -59,7 +45,7 @@ internal class ServiceStorageConnection(
     }
 
     override fun getSavedDataSync(owner: LifecycleOwner?): BazaarResponse<ByteArray> {
-        val bundle = withService(
+        val bundle = serviceHelper.withService(
             func = {
                 getSavedData(it)
             },
@@ -80,7 +66,7 @@ internal class ServiceStorageConnection(
         data: ByteArray,
         callback: BazaarStorageCallback
     ) {
-        withServiceInBackground(
+        serviceHelper.withServiceInBackground(
             func = {
                 val bundle = saveData(it, data)
                 val bazaarResponse = getSetDataResponse(bundle)
@@ -98,7 +84,7 @@ internal class ServiceStorageConnection(
     }
 
     override fun saveDataSync(owner: LifecycleOwner?, data: ByteArray) {
-        withService(
+        serviceHelper.withService(
             func = {
                 saveData(it, data)
             },
@@ -113,55 +99,9 @@ internal class ServiceStorageConnection(
     }
 
     override fun disconnect() {
-        context.unbindService(this)
-        storageService = null
-        connectionThreadSecure?.abort()
-
+        serviceHelper.disconnect()
         backgroundThread.interrupt()
         super.disconnect()
-    }
-
-    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-        storageService = InAppBazaarStorage.Stub.asInterface(service)
-        connectionThreadSecure?.countDown()
-    }
-
-    override fun onServiceDisconnected(name: ComponentName?) {
-        storageService = null
-    }
-
-    private fun <T> withService(
-        func: (InAppBazaarStorage) -> T,
-        onException: () -> T
-    ): T {
-        return runSafeOnService(func, onException)
-    }
-
-    private fun <T> withServiceInBackground(
-        func: (InAppBazaarStorage) -> T,
-        onException: () -> T
-    ) {
-        val runnable = {
-            runSafeOnService(func, onException)
-            Unit
-        }
-
-        backgroundThread.execute(runnable)
-    }
-
-    private fun <T> runSafeOnService(
-        func: (InAppBazaarStorage) -> T,
-        onException: () -> T
-    ) = try {
-        connectionThreadSecure?.await()
-        if (storageService == null) {
-            connect()
-        }
-
-        connectionThreadSecure?.await()
-        func.invoke(requireNotNull(storageService))
-    } catch (e: Exception) {
-        onException.invoke()
     }
 
     private fun runOnMainThread(func: () -> Unit) {
