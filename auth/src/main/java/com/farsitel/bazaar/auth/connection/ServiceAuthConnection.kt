@@ -95,17 +95,7 @@ internal class ServiceAuthConnection(
         func: (InAppBazaarAuth) -> T,
         onException: () -> T
     ): T {
-        return try {
-            connectionThreadSecure?.await()
-            if (authService == null) {
-                connect()
-            }
-
-            connectionThreadSecure?.await()
-            func.invoke(requireNotNull(authService))
-        } catch (e: Exception) {
-            onException.invoke()
-        }
+        return runSafeOnService(func, onException)
     }
 
     private fun <T> withServiceInBackground(
@@ -113,21 +103,26 @@ internal class ServiceAuthConnection(
         onException: () -> T
     ) {
         val runnable = {
-            try {
-                connectionThreadSecure?.await()
-                if (authService == null) {
-                    connect()
-                }
-
-                connectionThreadSecure?.await()
-                func.invoke(requireNotNull(authService))
-            } catch (e: Exception) {
-                onException.invoke()
-            }
+            runSafeOnService(func, onException)
             Unit
         }
 
         backgroundThread.execute(runnable)
+    }
+
+    private fun <T> runSafeOnService(
+        func: (InAppBazaarAuth) -> T,
+        onException: () -> T
+    ) = try {
+        connectionThreadSecure?.await()
+        if (authService == null) {
+            connect()
+        }
+
+        connectionThreadSecure?.await()
+        func.invoke(requireNotNull(authService))
+    } catch (e: Exception) {
+        onException.invoke()
     }
 
     companion object {

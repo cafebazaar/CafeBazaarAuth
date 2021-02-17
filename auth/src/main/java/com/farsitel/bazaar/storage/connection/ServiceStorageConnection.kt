@@ -134,17 +134,7 @@ internal class ServiceStorageConnection(
         func: (InAppBazaarStorage) -> T,
         onException: () -> T
     ): T {
-        return try {
-            connectionThreadSecure?.await()
-            if (storageService == null) {
-                connect()
-            }
-
-            connectionThreadSecure?.await()
-            func.invoke(requireNotNull(storageService))
-        } catch (e: Exception) {
-            onException.invoke()
-        }
+        return runSafeOnService(func, onException)
     }
 
     private fun <T> withServiceInBackground(
@@ -152,21 +142,26 @@ internal class ServiceStorageConnection(
         onException: () -> T
     ) {
         val runnable = {
-            try {
-                connectionThreadSecure?.await()
-                if (storageService == null) {
-                    connect()
-                }
-
-                connectionThreadSecure?.await()
-                func.invoke(requireNotNull(storageService))
-            } catch (e: Exception) {
-                onException.invoke()
-            }
+            runSafeOnService(func, onException)
             Unit
         }
 
         backgroundThread.execute(runnable)
+    }
+
+    private fun <T> runSafeOnService(
+        func: (InAppBazaarStorage) -> T,
+        onException: () -> T
+    ) = try {
+        connectionThreadSecure?.await()
+        if (storageService == null) {
+            connect()
+        }
+
+        connectionThreadSecure?.await()
+        func.invoke(requireNotNull(storageService))
+    } catch (e: Exception) {
+        onException.invoke()
     }
 
     private fun runOnMainThread(func: () -> Unit) {
