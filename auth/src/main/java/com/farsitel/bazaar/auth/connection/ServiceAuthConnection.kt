@@ -54,14 +54,14 @@ internal class ServiceAuthConnection(
         return getLastAccountResponse(bundle)
     }
 
-    override fun disconnect(context: Context) {
+    override fun disconnect() {
         context.unbindService(this)
 
         authService = null
         connectionThreadSecure?.abort()
 
         backgroundThread.interrupt()
-        super.disconnect(context)
+        super.disconnect()
     }
 
     fun connect(): Boolean {

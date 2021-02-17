@@ -87,13 +87,13 @@ internal class ReceiverStorageConnection(
         setStorageLatch!!.await()
     }
 
-    override fun disconnect(context: Context) {
+    override fun disconnect() {
         bazaarSetStorageCallback = null
         bazaarGetStorageCallback = null
 
         getStorageLatch?.abort()
         setStorageLatch?.abort()
-        super.disconnect(context)
+        super.disconnect()
     }
 
     private fun sendBroadcastForGetSavedData(owner: LifecycleOwner?) {

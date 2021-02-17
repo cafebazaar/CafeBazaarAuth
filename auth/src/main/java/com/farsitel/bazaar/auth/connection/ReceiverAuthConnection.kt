@@ -46,12 +46,12 @@ internal class ReceiverAuthConnection(
         return bazaarSignInAccountResponse
     }
 
-    override fun disconnect(context: Context) {
+    override fun disconnect() {
         bazaarSignInCallback = null
         bazaarSignInAccountResponse = null
 
         getAccountIdLatch?.abort()
-        super.disconnect(context)
+        super.disconnect()
     }
 
     private fun sendBroadcastForLastAccountId(owner: LifecycleOwner?) {

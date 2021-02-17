@@ -14,7 +14,7 @@ internal abstract class AuthConnection(private val context: Context) {
     abstract fun getLastAccountId(owner: LifecycleOwner?, callback: BazaarSignInCallback)
     abstract fun getLastAccountIdSync(owner: LifecycleOwner?): BazaarResponse<BazaarSignInAccount>?
 
-    open fun disconnect(context: Context) {
+    open fun disconnect() {
         authConnection = null
     }
 

@@ -45,6 +45,6 @@ object BazaarSignIn {
 
     @JvmStatic
     fun disconnect(context: Context) {
-        getAuthConnection(context).disconnect(context)
+        getAuthConnection(context).disconnect()
     }
 }

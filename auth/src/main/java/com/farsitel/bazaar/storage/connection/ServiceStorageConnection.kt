@@ -112,13 +112,13 @@ internal class ServiceStorageConnection(
         return connection.saveData(context.packageName, data.toBase64())
     }
 
-    override fun disconnect(context: Context) {
+    override fun disconnect() {
         context.unbindService(this)
         storageService = null
         connectionThreadSecure?.abort()
 
         backgroundThread.interrupt()
-        super.disconnect(context)
+        super.disconnect()
     }
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
