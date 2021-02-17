@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loginButton = findViewById(R.id.loginButton)
 
         checkUserAlreadySignedIn()
         checkInBackThread()
 
-        loginButton = findViewById(R.id.loginButton)
     }
 
     private fun checkUserAlreadySignedIn() {
@@ -118,6 +118,12 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "you are login", Toast.LENGTH_LONG).show()
         }
 
+    }
+
+    override fun onDestroy() {
+        BazaarStorage.disconnect(this)
+        BazaarSignIn.disconnect(this)
+        super.onDestroy()
     }
 
     companion object {

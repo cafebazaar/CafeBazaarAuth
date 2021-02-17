@@ -12,9 +12,7 @@ import com.farsitel.bazaar.storage.receiver.StorageReceiver
 import com.farsitel.bazaar.thread.MainThread
 import com.farsitel.bazaar.thread.ThreadHelper
 import com.farsitel.bazaar.util.AbortableCountDownLatch
-import com.farsitel.bazaar.util.InAppLoginLogger
 import com.farsitel.bazaar.util.ext.toBase64
-import com.farsitel.bazaar.util.fromBase64
 
 internal class ReceiverStorageConnection(
     private val context: Context,
@@ -92,6 +90,15 @@ internal class ReceiverStorageConnection(
         setStorageLatch!!.await()
     }
 
+    override fun disconnect() {
+        bazaarSetStorageCallback = null
+        bazaarGetStorageCallback = null
+
+        getStorageLatch?.abort()
+        setStorageLatch?.abort()
+        super.disconnect()
+    }
+
     private fun sendBroadcastForGetSavedData(owner: LifecycleOwner?) {
         listenOnIncomingBroadcastReceiver(owner)
         val intent = getNewIntentForBroadcast(ACTION_STORAGE_GET_DATA)
@@ -131,21 +138,7 @@ internal class ReceiverStorageConnection(
     }
 
     private fun handleGetSavedDataResponse(extras: Bundle?) {
-        if (extras == null) {
-            return
-        }
-
-        val bazaarResponse = if (StorageResponseHandler.isSuccessful(extras)) {
-            val data = StorageResponseHandler.getSavedData(extras)
-            val payload = data?.fromBase64()
-
-            BazaarResponse(isSuccessful = true, data = payload)
-        } else {
-            val errorResponse = StorageResponseHandler.getErrorResponse(extras)
-            InAppLoginLogger.logError(errorResponse?.errorMessage)
-
-            BazaarResponse(isSuccessful = true, errorResponse = errorResponse)
-        }
+        val bazaarResponse = retrieveGetSavedDataResponse(extras)
 
         bazaarGetStorageCallback?.onDataReceived(bazaarResponse)
         getStorageLatch?.let {
@@ -155,21 +148,7 @@ internal class ReceiverStorageConnection(
     }
 
     private fun handleSetDataResponse(extras: Bundle?) {
-        if (extras == null) {
-            return
-        }
-
-        val bazaarResponse = if (StorageResponseHandler.isSuccessful(extras)) {
-            val data = StorageResponseHandler.getSavedData(extras)
-            val payload = data?.fromBase64()
-
-            BazaarResponse(isSuccessful = true, data = payload)
-        } else {
-            val errorResponse = StorageResponseHandler.getErrorResponse(extras)
-            InAppLoginLogger.logError(errorResponse?.errorMessage)
-
-            BazaarResponse(isSuccessful = true, errorResponse = errorResponse)
-        }
+        val bazaarResponse = getSetDataResponse(extras)
 
         bazaarSetStorageCallback?.onDataReceived(bazaarResponse)
         setStorageLatch?.countDown()
