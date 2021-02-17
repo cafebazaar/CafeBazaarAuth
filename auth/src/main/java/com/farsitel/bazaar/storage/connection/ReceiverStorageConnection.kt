@@ -131,7 +131,7 @@ internal class ReceiverStorageConnection(
     }
 
     private fun handleGetSavedDataResponse(extras: Bundle?) {
-        val bazaarResponse = getGetSavedDataResponse(extras)
+        val bazaarResponse = retrieveGetSavedDataResponse(extras)
 
         bazaarGetStorageCallback?.onDataReceived(bazaarResponse)
         getStorageLatch?.let {

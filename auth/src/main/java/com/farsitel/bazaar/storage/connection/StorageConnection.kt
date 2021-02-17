@@ -22,7 +22,7 @@ internal abstract class StorageConnection(private val context: Context) {
         storageConnection = null
     }
 
-    fun getGetSavedDataResponse(extras: Bundle?): BazaarResponse<ByteArray> {
+    fun retrieveGetSavedDataResponse(extras: Bundle?): BazaarResponse<ByteArray> {
         return if (StorageResponseHandler.isSuccessful(extras)) {
             val data = StorageResponseHandler.getSavedData(extras)
             val payload = data?.fromBase64()

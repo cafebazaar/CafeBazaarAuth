@@ -48,12 +48,12 @@ internal class ServiceStorageConnection(
             func = {
                 val bundle = getSavedData(it)
                 runOnMainThread {
-                    callback.onDataReceived(getGetSavedDataResponse(bundle))
+                    callback.onDataReceived(retrieveGetSavedDataResponse(bundle))
                 }
             },
             onException = {
                 runOnMainThread {
-                    callback.onDataReceived(getGetSavedDataResponse(extras = null))
+                    callback.onDataReceived(retrieveGetSavedDataResponse(extras = null))
                 }
             })
     }
@@ -68,7 +68,7 @@ internal class ServiceStorageConnection(
             }
         )
 
-        return getGetSavedDataResponse(bundle)
+        return retrieveGetSavedDataResponse(bundle)
     }
 
     private fun getSavedData(connection: InAppBazaarStorage): Bundle? {
