@@ -8,7 +8,7 @@ interface InAppBazaarAuth {
     *  @params: packageName of the thirdParty application
     *  @Return: Bundle with the following data:
             ID
-            STATUE
+            STATUS
     */
     Bundle getLastAccountId(String packageName);
 }
