@@ -4,13 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 apply from: '../android-config.gradle'
 
 ext {
-    package_id = 'Auth'
-    artifact_id = 'auth'
+    package_id = 'Core'
+    artifact_id = 'core'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(":core")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$libraryVersions.kotlin"
+    implementation "androidx.appcompat:appcompat:$libraryVersions.appcompat"
+    implementation "androidx.core:core-ktx:$libraryVersions.androidx"
 }
 
 apply from: "$rootDir/bintray/install-bintray.gradle"

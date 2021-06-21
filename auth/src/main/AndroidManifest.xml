@@ -1,28 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.farsitel.bazaar.auth">
 
     <queries>
         <package android:name="com.farsitel.bazaar" />
     </queries>
-
-    <application>
-        <activity
-            android:name=".view.BazaarInstallerActivity"
-            android:theme="@style/Theme.Transparent" />
-
-        <receiver android:name="com.farsitel.bazaar.auth.receiver.AuthReceiver">
-            <intent-filter>
-                <action android:name="com.farsitel.bazaar.lastAccountRes" />
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name="com.farsitel.bazaar.storage.receiver.StorageReceiver">
-            <intent-filter>
-                <action android:name="com.farsitel.bazaar.getInAppData" />
-                <action android:name="com.farsitel.bazaar.getInAppDataRes" />
-                <action android:name="com.farsitel.bazaar.setInAppData" />
-                <action android:name="com.farsitel.bazaar.setInAppDataRes" />
-            </intent-filter>
-        </receiver>
-    </application>
 </manifest>
