@@ -5,7 +5,7 @@ apply from: '../android-config.gradle'
 
 ext {
     package_id = 'BazaarAuth'
-    artifact_id = 'auth'
+    artifact_id = 'auth-legacy'
 }
 
 dependencies {

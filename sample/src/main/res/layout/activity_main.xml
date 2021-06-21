@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.farsitel.bazaar.auth.widget.LoginButton
+        <com.farsitel.bazaar.core.widget.LoginButton
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             app:login_button_size="NORMAL" />
 
-        <com.farsitel.bazaar.auth.widget.LoginButton
+        <com.farsitel.bazaar.core.widget.LoginButton
             android:id="@+id/loginButtonBig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
