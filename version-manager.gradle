@@ -15,6 +15,6 @@ ext {
             'androidmaven': '1.4.1',
     ]
 
-    authVersion = "1.0.0-alpha07"
+    authVersion = "1.0.0-alpha08"
 
 }
