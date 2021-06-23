@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply from: '../android-config.gradle'
 
 ext {
-    package_id = 'BazaarAuth'
+    package_id = 'Auth'
     artifact_id = 'auth'
 }
 
