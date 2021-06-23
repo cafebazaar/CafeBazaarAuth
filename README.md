@@ -1,6 +1,3 @@
-[![](https://api.bintray.com/packages/shayanpourvatan/BazaarAuth/BazaarAuth/images/download.svg
-)](https://bintray.com/beta/#/shayanpourvatan/BazaarAuth?tab=packages)  
-
 # BazaarAuth
 
 Using this library, you can always access your users without having to implement a local login. Firstly, this reduces uncertainty, lack of security, and bot users due to its unified login solution. It also reduces the cost of user authentication by email or text messages. Furthermore, you do not lose the user history and data in your app if they uninstall or change their device.
@@ -11,8 +8,14 @@ To start working with `BazaarAuth`, you'll need to add its dependency to your `b
 
 ```
 dependencies {
-    implementation "com.farsitel.bazaar:auth:[latest_version]"
+    implementation 'com.github.cafebazaar.CafeBazaarAuth:auth:[latest_version]"
 }
+```
+
+You need to add jitPack as your maven dependency to download this package. Add following line into repositories section in gradle file:
+
+```
+maven { url 'https://jitpack.io' }
 ```
 
 # How to use
