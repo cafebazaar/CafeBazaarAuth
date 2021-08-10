@@ -7,13 +7,17 @@
             android:name="com.farsitel.bazaar.core.view.BazaarInstallerActivity"
             android:theme="@style/Theme.Transparent" />
 
-        <receiver android:name="com.farsitel.bazaar.core.receiver.AuthReceiver">
+        <receiver android:name="com.farsitel.bazaar.core.receiver.AuthReceiver"
+                  android:exported="true"
+                  >
             <intent-filter>
                 <action android:name="com.farsitel.bazaar.lastAccountRes" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.farsitel.bazaar.storage.receiver.StorageReceiver">
+        <receiver android:name="com.farsitel.bazaar.storage.receiver.StorageReceiver"
+                  android:exported="true"
+                  >
             <intent-filter>
                 <action android:name="com.farsitel.bazaar.getInAppData" />
                 <action android:name="com.farsitel.bazaar.getInAppDataRes" />
