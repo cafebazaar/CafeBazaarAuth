@@ -7,12 +7,17 @@ import com.farsitel.bazaar.BazaarResponse
 import com.farsitel.bazaar.core.callback.BazaarSignInCallback
 import com.farsitel.bazaar.core.model.BazaarSignInAccount
 import com.farsitel.bazaar.thread.BackgroundThread
-import com.farsitel.bazaar.util.InAppLoginLogger
 import com.farsitel.bazaar.thread.MainThread
+import com.farsitel.bazaar.util.InAppLoginLogger
 
-internal abstract class AuthConnection(private val context: Context) {
+internal abstract class AuthConnection {
 
-    abstract fun getLastAccountId(owner: LifecycleOwner?, callback: BazaarSignInCallback)
+    abstract fun getLastAccountId(
+        owner: LifecycleOwner?,
+        callback: BazaarSignInCallback,
+        mainThread: MainThread
+    )
+
     abstract fun getLastAccountIdSync(owner: LifecycleOwner?): BazaarResponse<BazaarSignInAccount>?
 
     open fun disconnect() {
@@ -33,6 +38,7 @@ internal abstract class AuthConnection(private val context: Context) {
     }
 
     companion object {
+
         const val PACKAGE_NAME_KEY = "packageName"
 
         private var authConnection: AuthConnection? = null
@@ -43,7 +49,6 @@ internal abstract class AuthConnection(private val context: Context) {
                 synchronized(lockObject) {
                     if (authConnection == null) {
                         initializeAuthConnection(context)
-
                     }
                 }
             }
