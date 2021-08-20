@@ -8,11 +8,12 @@ import com.farsitel.bazaar.core.callback.BazaarSignInCallback
 import com.farsitel.bazaar.core.model.BazaarSignInAccount
 import com.farsitel.bazaar.service.ServiceHelper
 import com.farsitel.bazaar.thread.BackgroundThread
+import com.farsitel.bazaar.thread.MainThread
 
 internal class ServiceAuthConnection(
     private val context: Context,
     private val backgroundThread: BackgroundThread
-) : AuthConnection(context) {
+) : AuthConnection() {
 
     private val serviceHelper = ServiceHelper<InAppBazaarAuth>(
         context,
@@ -24,15 +25,21 @@ internal class ServiceAuthConnection(
 
     override fun getLastAccountId(
         owner: LifecycleOwner?,
-        callback: BazaarSignInCallback
+        callback: BazaarSignInCallback,
+        mainThread: MainThread
     ) {
         serviceHelper.withServiceInBackground(
             func = { connection ->
                 val response = getLastAccountBundleFromService(connection)
-                callback.onAccountReceived(response)
+                mainThread.post {
+                    callback.onAccountReceived(response)
+                }
             }, onException = {
-                callback.onAccountReceived(getLastAccountResponse(extras = null))
-            })
+                mainThread.post {
+                    callback.onAccountReceived(getLastAccountResponse(extras = null))
+                }
+            }
+        )
     }
 
     override fun getLastAccountIdSync(
@@ -65,6 +72,7 @@ internal class ServiceAuthConnection(
     }
 
     companion object {
+
         private const val AUTH_SERVICE_ACTION = "com.farsitel.bazaar.InAppLogin.BIND"
     }
 }
