@@ -9,6 +9,7 @@ import com.farsitel.bazaar.core.callback.BazaarSignInCallback
 import com.farsitel.bazaar.core.connection.AuthConnection.Companion.getAuthConnection
 import com.farsitel.bazaar.core.model.BazaarSignInAccount
 import com.farsitel.bazaar.core.model.BazaarSignInOptions
+import com.farsitel.bazaar.thread.MainThread
 
 object BazaarSignIn {
 
@@ -18,7 +19,8 @@ object BazaarSignIn {
         owner: LifecycleOwner?,
         callback: BazaarSignInCallback
     ) {
-        getAuthConnection(context).getLastAccountId(owner, callback)
+        val mainThread = MainThread()
+        getAuthConnection(context).getLastAccountId(owner, callback, mainThread)
     }
 
     @JvmStatic

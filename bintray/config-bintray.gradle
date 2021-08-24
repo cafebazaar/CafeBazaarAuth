@@ -1,6 +1,6 @@
 apply plugin: 'com.jfrog.bintray'
 
-version = authVersion
+version = authVersionName
 
 if (project.getPlugins().hasPlugin('com.android.application') ||
         project.getPlugins().hasPlugin('com.android.library')) {

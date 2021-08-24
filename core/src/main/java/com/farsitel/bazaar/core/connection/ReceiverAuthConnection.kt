@@ -17,7 +17,7 @@ import com.farsitel.bazaar.util.AbortableCountDownLatch
 internal class ReceiverAuthConnection(
     private val context: Context,
     private val mainThread: MainThread
-) : AuthConnection(context) {
+) : AuthConnection() {
 
     private var bazaarSignInCallback: BazaarSignInCallback? = null
 
@@ -34,7 +34,8 @@ internal class ReceiverAuthConnection(
 
     override fun getLastAccountId(
         owner: LifecycleOwner?,
-        callback: BazaarSignInCallback
+        callback: BazaarSignInCallback,
+        mainThread: MainThread
     ) {
         bazaarSignInCallback = callback
         sendBroadcastForLastAccountId(owner)
@@ -84,7 +85,9 @@ internal class ReceiverAuthConnection(
 
     private fun handleGetLastAccountResponse(extras: Bundle?) {
         val response = getLastAccountResponse(extras)
-        bazaarSignInCallback?.onAccountReceived(response)
+        mainThread.post {
+            bazaarSignInCallback?.onAccountReceived(response)
+        }
         getAccountIdLatch?.let {
             bazaarSignInAccountResponse = response
             it.countDown()
