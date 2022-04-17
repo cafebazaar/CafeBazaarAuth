@@ -6,6 +6,7 @@ import com.farsitel.bazaar.ErrorResponse
 object StorageResponseHandler {
 
     private const val KEY_IAL_STATUS: String = "ialStatus"
+    private const val KEY_IAL_DATA_STATUS: String = "ialdStatus" // this is added for bazaar versions < 19.2.0
     private const val KEY_IAL_ERROR_MESSAGE: String = "ialErrorMessage"
     private const val ERROR_MESSAGE_UNKNOWN = "unknown error"
 
@@ -21,7 +22,9 @@ object StorageResponseHandler {
     private const val ERROR_EXTRA_IS_NULL = "extra data is null"
 
     fun isSuccessful(extras: Bundle?): Boolean {
-        return extras?.getInt(KEY_IAL_STATUS) == IAL_STATUS_SUCCESS
+        return extras?.let {
+            it.containsKeyWithSuccessValue(KEY_IAL_STATUS) || it.containsKeyWithSuccessValue(KEY_IAL_DATA_STATUS)
+        } ?: false
     }
 
     fun getErrorResponse(extras: Bundle?): ErrorResponse? {
@@ -39,5 +42,9 @@ object StorageResponseHandler {
 
     fun getSavedData(extras: Bundle?): String? {
         return extras?.getString(KEY_SAVED_DATA)
+    }
+
+    private fun Bundle.containsKeyWithSuccessValue(key: String): Boolean {
+        return containsKey(key).and(getInt(key) == IAL_STATUS_SUCCESS)
     }
 }
