@@ -16,6 +16,6 @@ ext {
     ]
 
     authVersionCode = 3
-    authVersionName = "1.0.1"
+    authVersionName = "1.0.2"
 
 }
