@@ -80,7 +80,6 @@ internal class ServiceStorageConnection(
                 }
             }
         )
-        saveDataSync(owner, data)
     }
 
     override fun saveDataSync(owner: LifecycleOwner?, data: ByteArray) {
