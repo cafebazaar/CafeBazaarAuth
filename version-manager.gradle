@@ -15,7 +15,7 @@ ext {
             'androidmaven': '1.4.1',
     ]
 
-    authVersionCode = 3
+    authVersionCode = 4
     authVersionName = "1.0.2"
 
 }
