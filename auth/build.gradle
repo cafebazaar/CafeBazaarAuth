@@ -12,6 +12,3 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(":core")
 }
-
-apply from: "$rootDir/bintray/install-bintray.gradle"
-apply from: "$rootDir/bintray/config-bintray.gradle"

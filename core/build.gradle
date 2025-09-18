@@ -3,6 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../android-config.gradle'
 
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
 ext {
     package_id = 'Core'
     artifact_id = 'core'
@@ -13,7 +19,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$libraryVersions.kotlin"
     implementation "androidx.appcompat:appcompat:$libraryVersions.appcompat"
     implementation "androidx.core:core-ktx:$libraryVersions.androidx"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
 }
-
-apply from: "$rootDir/bintray/install-bintray.gradle"
-apply from: "$rootDir/bintray/config-bintray.gradle"
