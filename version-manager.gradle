@@ -1,12 +1,16 @@
 ext {
 
     libraryVersions = [
-            'kotlin'   : '2.2.20',
-            'appcompat': '1.7.1',
-            'fragment' : '1.8.8',
-            'androidx' : '1.17.0',
+            'kotlin'           : '2.2.20',
+            'appcompat'        : '1.7.1',
+            'fragment'         : '1.8.8',
+            'androidx'         : '1.17.0',
+            'activity'         : '1.10.1',
+            'constraintlayout' : '2.2.1',
 
-            'junit' : '4.13.2'
+            'junit'        : '4.13.2',
+            'androidxTest' : '1.2.1',
+            'espresso'     : '3.6.1'
     ]
 
     pluginVersions = [

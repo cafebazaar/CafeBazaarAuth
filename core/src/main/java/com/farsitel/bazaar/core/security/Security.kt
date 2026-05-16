@@ -46,6 +46,8 @@ object Security {
             packageInfo.signatures ?: emptyArray()
         }
 
+        if (signatures.isEmpty()) return false
+
         for (sig in signatures) {
             val input: InputStream = ByteArrayInputStream(sig.toByteArray())
             val certificateFactory: CertificateFactory = CertificateFactory.getInstance("X509")

@@ -16,10 +16,7 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-
-                groupId = 'com.github.cafebazaar.CafeBazaarAuth'
                 artifactId = project.artifact_id
-                version = authVersionName
 
                 pom {
                     name = project.package_id
