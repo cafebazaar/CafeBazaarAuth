@@ -1,7 +1,22 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply from: '../android-config.gradle'
+
+android {
+    namespace 'com.farsitel.bazaar.core'
+
+    buildFeatures {
+        aidl true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+kotlin {
+    jvmToolchain(17)
+}
 
 ext {
     package_id = 'Core'
@@ -15,5 +30,4 @@ dependencies {
     implementation "androidx.core:core-ktx:$libraryVersions.androidx"
 }
 
-apply from: "$rootDir/bintray/install-bintray.gradle"
-apply from: "$rootDir/bintray/config-bintray.gradle"
+apply from: "$rootDir/jitpack/publish.gradle"

@@ -1,0 +1,37 @@
+apply plugin: 'maven-publish'
+
+group = 'com.github.cafebazaar.CafeBazaarAuth'
+version = authVersionName
+
+android {
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.github.cafebazaar.CafeBazaarAuth'
+                artifactId = project.artifact_id
+                version = authVersionName
+
+                pom {
+                    name = project.package_id
+                    url = 'https://github.com/cafebazaar/CafeBazaarAuth'
+                    developers {
+                        developer {
+                            id = 'cafebazaar'
+                            name = 'Cafe Bazaar'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

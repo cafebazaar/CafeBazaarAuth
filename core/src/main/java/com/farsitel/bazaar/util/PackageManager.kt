@@ -52,5 +52,5 @@ internal fun PackageInfo.appName(context: Context, locale: Locale): String? = tr
         applicationInfo.loadLabel(context.packageManager).toString()
     }
 } catch (e: Exception) {
-    applicationInfo.loadLabel(context.packageManager).toString()
+    applicationInfo?.loadLabel(context.packageManager)?.toString()
 }

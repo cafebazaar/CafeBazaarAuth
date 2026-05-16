@@ -1,7 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply from: '../android-config.gradle'
+
+android {
+    namespace 'com.farsitel.bazaar.auth.legacy'
+}
 
 ext {
     package_id = 'Auth-Legacy'
@@ -13,5 +16,4 @@ dependencies {
     api project(":core")
 }
 
-apply from: "$rootDir/bintray/install-bintray.gradle"
-apply from: "$rootDir/bintray/config-bintray.gradle"
+apply from: "$rootDir/jitpack/publish.gradle"
