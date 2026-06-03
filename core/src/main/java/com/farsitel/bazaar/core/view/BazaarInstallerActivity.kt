@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.farsitel.bazaar.BAZAAR_PACKAGE_NAME
 import com.farsitel.bazaar.core.R
 import com.farsitel.bazaar.core.model.InstallerType
 import com.farsitel.bazaar.util.getAppName
 import com.farsitel.bazaar.util.ext.safeStartActivity
-import kotlinx.android.synthetic.main.cafe_installer_view.*
-import kotlinx.android.synthetic.main.cafe_update_view.*
 
 class BazaarInstallerActivity : AppCompatActivity() {
 
@@ -46,19 +45,19 @@ class BazaarInstallerActivity : AppCompatActivity() {
     }
 
     private fun initInstallView() {
-        install.setOnClickListener {
+        findViewById<TextView>(R.id.install).setOnClickListener {
             openInstallBazaarPage()
         }
 
-        installDesc.text = getString(R.string.install_desc, appName)
+        findViewById<TextView>(R.id.installDesc).text = getString(R.string.install_desc, appName)
     }
 
     private fun initUpdateView() {
-        update.setOnClickListener {
+        findViewById<TextView>(R.id.update).setOnClickListener {
             openUpdateBazaarInApplication()
         }
 
-        updateDesc.text = getString(R.string.update_desc, appName)
+        findViewById<TextView>(R.id.updateDesc).text = getString(R.string.update_desc, appName)
     }
 
     private fun openUpdateBazaarInApplication() {

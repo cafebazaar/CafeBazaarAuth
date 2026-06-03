@@ -3,6 +3,9 @@ package com.farsitel.bazaar.sample.auth
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.farsitel.bazaar.BazaarClientProxy
@@ -15,12 +18,19 @@ import com.farsitel.bazaar.core.model.SignInOption
 import com.farsitel.bazaar.storage.BazaarStorage
 import com.farsitel.bazaar.storage.callback.BazaarStorageCallback
 import com.farsitel.bazaar.util.ext.toReadableString
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var loginButton: View
     private lateinit var client: BazaarSignInClient
+
+    private val updateBazaar by lazy { findViewById<Button>(R.id.updateBazaar) }
+    private val installBazaar by lazy { findViewById<Button>(R.id.installBazaar) }
+    private val getData by lazy { findViewById<Button>(R.id.getData) }
+    private val setData by lazy { findViewById<Button>(R.id.setData) }
+    private val dataTV by lazy { findViewById<TextView>(R.id.dataTV) }
+    private val dataET by lazy { findViewById<EditText>(R.id.dataET) }
+    private val accountId by lazy { findViewById<TextView>(R.id.accountId) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

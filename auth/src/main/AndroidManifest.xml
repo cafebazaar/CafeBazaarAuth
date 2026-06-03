@@ -1,6 +1,5 @@
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.farsitel.bazaar.auth">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <queries>
         <package android:name="com.farsitel.bazaar" />

@@ -37,14 +37,16 @@ object Security {
                 packageName,
                 PackageManager.GET_SIGNING_CERTIFICATES
             )
-            packageInfo.signingInfo.apkContentsSigners
+            packageInfo.signingInfo?.apkContentsSigners ?: emptyArray()
         } else {
             val packageInfo = packageManager.getPackageInfo(
                 packageName,
                 PackageManager.GET_SIGNATURES
             )
-            packageInfo.signatures
+            packageInfo.signatures ?: emptyArray()
         }
+
+        if (signatures.isEmpty()) return false
 
         for (sig in signatures) {
             val input: InputStream = ByteArrayInputStream(sig.toByteArray())
@@ -70,7 +72,7 @@ object Security {
             } else if (length > 2) {
                 suggestedHex = suggestedHex.substring(length - 2, length)
             }
-            stringBuilder.append(suggestedHex.toUpperCase(Locale.getDefault()))
+            stringBuilder.append(suggestedHex.uppercase(Locale.getDefault()))
             if (index < array.size - 1) {
                 stringBuilder.append(':')
             }
